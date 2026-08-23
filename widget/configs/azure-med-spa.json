@@ -1,0 +1,39 @@
+{
+  "business": {
+    "name": "Azure Med Spa",
+    "nameAr": "أزور ميد سبا",
+    "tagline": "Dermatology & Aesthetics",
+    "taglineAr": "الجلدية والتجميل",
+    "monogram": "AM",
+    "primaryColor": "#0EA5E9",
+    "accentColor": "#1E3A8A",
+    "logoUrl": null,
+    "timezone": "Asia/Dubai",
+    "ogImageUrl": "https://glamchain.com/og/azure-med-spa.png",
+    "showBranding": true
+  },
+  "services": [
+    { "id": "consult", "name": "Skin Consultation",       "nameAr": "استشارة جلدية",       "durationMin": 20 },
+    { "id": "botox",   "name": "Botox / Dysport",         "nameAr": "بوتوكس / ديسبورت",    "durationMin": 30 },
+    { "id": "fillers", "name": "Dermal Fillers",          "nameAr": "الفيلر الجلدي",       "durationMin": 45 },
+    { "id": "laser",   "name": "Laser Hair Removal",      "nameAr": "إزالة الشعر بالليزر",  "durationMin": 30 },
+    { "id": "prp",     "name": "PRP / Vampire Facial",    "nameAr": "تجديد البشرة بالبلازما", "durationMin": 75 }
+  ],
+  "workingHours": {
+    "0": { "open": "09:00", "close": "18:00" },
+    "1": { "open": "09:00", "close": "18:00" },
+    "2": { "open": "09:00", "close": "18:00" },
+    "3": { "open": "09:00", "close": "18:00" },
+    "4": { "open": "09:00", "close": "18:00" },
+    "5": null,
+    "6": { "open": "11:00", "close": "16:00" }
+  },
+  "slotGranularityMin": 30,
+  "phone": {
+    "countryCodes": [
+      { "code": "+971", "label": "🇦🇪 UAE +971" },
+      { "code": "+966", "label": "🇸🇦 KSA +966" }
+    ],
+    "defaultCode": "+971"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "business": {
+    "name": "GlamChain",
+    "tagline": "Salon Chain Management",
+    "contactEmail": "admin@glamchain.com",
+    "contactPhone": "+974 4411 2233",
+    "website": "www.glamchain.qa"
+  },
+  "currency": {
+    "code": "QAR",
+    "symbol": "QR",
+    "locale": "ar-QA",
+    "name": "Qatari Riyal"
+  },
+  "user": {
+    "name": "Sarah Mitchell",
+    "email": "admin@glamchain.com",
+    "role": "super_admin",
+    "initials": "SM"
+  },
+  "defaults": {
+    "language": "en",
+    "timezone": "Asia/Qatar",
+    "dateFormat": "dd/MM/yyyy"
+  }
+}

@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title id="nb-page-title">Book Now</title>
+<meta name="description" id="nb-meta-desc" content="Book your appointment online.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" id="nb-og-title" content="Book Now">
+<meta property="og:description" id="nb-og-desc" content="Book your appointment online.">
+<meta property="og:image" id="nb-og-image" content="">
+<meta property="og:url" id="nb-og-url" content="">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" id="nb-tw-title" content="Book Now">
+<meta name="twitter:description" id="nb-tw-desc" content="Book your appointment online.">
+<meta name="twitter:image" id="nb-tw-image" content="">
+
+<link rel="icon" id="nb-favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F766E'/%3E%3Ctext x='16' y='22' font-family='system-ui,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3ENB%3C/text%3E%3C/svg%3E">
+
+<meta name="theme-color" id="nb-theme-color" content="#0F766E">
+
+<style>
+:root {
+  --nb-primary: #0F766E;
+  --nb-primary-dark: #115E59;
+  --nb-on-primary: #FFFFFF;
+  --nb-accent: #1E3A8A;
+  --nb-bg: #FFFFFF;
+  --nb-surface: #F8FAFC;
+  --nb-surface-2: #F1F5F9;
+  --nb-text: #0F172A;
+  --nb-text-muted: #64748B;
+  --nb-border: #E2E8F0;
+  --nb-success: #10B981;
+  --nb-error: #DC2626;
+  --nb-error-bg: #FEF2F2;
+  --nb-error-border: #FECACA;
+  --nb-warn-bg: #FEF3C7;
+  --nb-warn-border: #FCD34D;
+  --nb-warn-text: #92400E;
+  --nb-radius: 12px;
+  --nb-shadow: 0 4px 24px rgba(15, 23, 42, 0.08);
+  --nb-shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.12);
+  --nb-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", "Noto Sans Arabic", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  font-family: var(--nb-font);
+  background: var(--nb-surface);
+  color: var(--nb-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+[dir="rtl"] body {
+  font-family: "Noto Sans Arabic", "Segoe UI", -apple-system, system-ui, sans-serif;
+}
+
+.nb-widget {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--nb-bg);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+body:not(.nb-embedded) .nb-widget {
+  min-height: 680px;
+  margin: 24px auto;
+  border-radius: 16px;
+  box-shadow: var(--nb-shadow-lg);
+  overflow: hidden;
+}
+
+@media (max-width: 520px) {
+  body:not(.nb-embedded) .nb-widget {
+    margin: 0;
+    min-height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+.nb-loading {
+  position: fixed;
+  inset: 0;
+  background: var(--nb-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: opacity 0.3s;
+}
+.nb-loading.hidden { opacity: 0; pointer-events: none; }
+.nb-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--nb-border);
+  border-top-color: var(--nb-primary);
+  border-radius: 50%;
+  animation: nbSpin 0.8s linear infinite;
+}
+@keyframes nbSpin { to { transform: rotate(360deg); } }
+
+.nb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--nb-border);
+  background: var(--nb-bg);
+  flex-shrink: 0;
+}
+
+.nb-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+
+.nb-logo {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--nb-primary);
+  color: var(--nb-on-primary);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 16px; letter-spacing: 0.5px;
+  flex-shrink: 0;
+  background-size: cover; background-position: center;
+}
+
+.nb-brand-text { min-width: 0; }
+
+.nb-business-name {
+  font-size: 15px; font-weight: 600; color: var(--nb-text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.nb-business-tag { font-size: 12px; color: var(--nb-text-muted); }
+
+.nb-lang-toggle {
+  background: var(--nb-surface);
+  border: 1px solid var(--nb-border);
+  border-radius: 20px;
+  padding: 7px 14px; font-size: 13px; font-weight: 500;
+  cursor: pointer; color: var(--nb-text); font-family: inherit;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.nb-lang-toggle:hover {
+  background: var(--nb-primary); color: var(--nb-on-primary); border-color: var(--nb-primary);
+}
+
+.nb-steps { display: flex; gap: 6px; padding: 16px 22px 0; }
+.nb-step-dot {
+  flex: 1; height: 4px; border-radius: 2px;
+  background: var(--nb-border); transition: background 0.3s;
+}
+.nb-step-dot.active { background: var(--nb-primary); }
+.nb-step-dot.done { background: var(--nb-primary); opacity: 0.5; }
+
+.nb-step-label { padding: 8px 22px 0; font-size: 12px; color: var(--nb-text-muted); min-height: 22px; }
+
+.nb-main { flex: 1; padding: 22px; overflow-y: auto; }
+
+.nb-step-title { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; }
+.nb-step-sub { font-size: 14px; color: var(--nb-text-muted); margin: 4px 0 22px; }
+
+/* SERVICE / STYLIST CARDS */
+.nb-service-list, .nb-stylist-list {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.nb-service-card, .nb-stylist-card {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 16px;
+  border: 1.5px solid var(--nb-border); border-radius: var(--nb-radius);
+  cursor: pointer; background: var(--nb-bg);
+  transition: all 0.15s; text-align: start;
+  font-family: inherit; width: 100%; color: inherit;
+}
+.nb-service-card:hover, .nb-stylist-card:hover {
+  border-color: var(--nb-primary); background: var(--nb-surface);
+}
+.nb-service-card.selected, .nb-stylist-card.selected {
+  border-color: var(--nb-primary);
+  background: color-mix(in srgb, var(--nb-primary) 5%, white);
+}
+.nb-service-info, .nb-stylist-info { flex: 1; min-width: 0; }
+.nb-service-name, .nb-stylist-name { font-weight: 600; font-size: 15px; }
+.nb-service-meta, .nb-stylist-meta { font-size: 13px; color: var(--nb-text-muted); margin-top: 2px; }
+.nb-service-check, .nb-stylist-check {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid var(--nb-border);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.nb-service-card.selected .nb-service-check,
+.nb-stylist-card.selected .nb-stylist-check {
+  background: var(--nb-primary); border-color: var(--nb-primary);
+}
+.nb-service-check svg, .nb-stylist-check svg { opacity: 0; transition: opacity 0.15s; }
+.nb-service-card.selected .nb-service-check svg,
+.nb-stylist-card.selected .nb-stylist-check svg { opacity: 1; }
+
+/* SKELETON loaders (for API fetches) */
+.nb-skeleton-card {
+  border: 1.5px solid var(--nb-border); border-radius: var(--nb-radius);
+  padding: 16px; background: var(--nb-bg);
+}
+.nb-skeleton-line {
+  height: 14px; background: linear-gradient(90deg, var(--nb-surface) 25%, var(--nb-surface-2) 50%, var(--nb-surface) 75%);
+  background-size: 200% 100%;
+  animation: nbShimmer 1.4s ease-in-out infinite;
+  border-radius: 4px;
+}
+.nb-skeleton-line.short { width: 60%; }
+.nb-skeleton-line.full { width: 100%; margin-top: 6px; }
+@keyframes nbShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* DATE STRIP */
+.nb-date-strip {
+  display: flex; gap: 8px; overflow-x: auto;
+  padding-bottom: 10px; margin: 0 -22px; padding-inline: 22px;
+  scrollbar-width: thin;
+}
+.nb-date-strip::-webkit-scrollbar { height: 4px; }
+.nb-date-strip::-webkit-scrollbar-thumb { background: var(--nb-border); border-radius: 2px; }
+
+.nb-date-chip {
+  flex-shrink: 0; min-width: 64px; padding: 12px 8px;
+  border: 1.5px solid var(--nb-border); border-radius: var(--nb-radius);
+  background: var(--nb-bg); cursor: pointer; text-align: center;
+  transition: all 0.15s; font-family: inherit; color: inherit;
+}
+.nb-date-chip:hover:not(.closed) { border-color: var(--nb-primary); }
+.nb-date-chip.selected {
+  background: var(--nb-primary); border-color: var(--nb-primary); color: var(--nb-on-primary);
+}
+.nb-date-chip.closed { opacity: 0.35; cursor: not-allowed; }
+.nb-date-dow { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; opacity: 0.75; }
+.nb-date-day { font-size: 18px; font-weight: 700; margin-top: 2px; }
+.nb-date-mon { font-size: 11px; opacity: 0.75; margin-top: 1px; }
+
+/* TIME SLOTS */
+.nb-slots-label { font-size: 13px; font-weight: 600; margin: 18px 0 10px; color: var(--nb-text); }
+.nb-slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.nb-slot {
+  padding: 10px 4px; border: 1.5px solid var(--nb-border);
+  border-radius: 10px; background: var(--nb-bg);
+  cursor: pointer; text-align: center; font-size: 13px; font-weight: 500;
+  transition: all 0.15s; font-family: inherit; color: inherit;
+}
+.nb-slot:hover:not(:disabled) { border-color: var(--nb-primary); background: var(--nb-surface); }
+.nb-slot.selected {
+  background: var(--nb-primary); border-color: var(--nb-primary); color: var(--nb-on-primary);
+}
+.nb-slot:disabled { opacity: 0.35; cursor: not-allowed; text-decoration: line-through; }
+.nb-no-slots { padding: 36px 16px; text-align: center; color: var(--nb-text-muted); font-size: 14px; }
+
+/* FORM */
+.nb-field { margin-bottom: 16px; }
+.nb-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--nb-text); }
+.nb-input {
+  width: 100%; padding: 12px 14px;
+  border: 1.5px solid var(--nb-border); border-radius: var(--nb-radius);
+  font-size: 15px; font-family: inherit; background: var(--nb-bg);
+  color: var(--nb-text); transition: border-color 0.15s, box-shadow 0.15s;
+}
+.nb-input:focus {
+  outline: none; border-color: var(--nb-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--nb-primary) 18%, transparent);
+}
+.nb-input.error { border-color: var(--nb-error); }
+.nb-error-msg { color: var(--nb-error); font-size: 12px; margin-top: 4px; display: none; }
+.nb-error-msg.show { display: block; }
+
+.nb-phone-row { display: flex; gap: 8px; }
+.nb-phone-code {
+  flex-shrink: 0; width: 120px; padding: 12px 10px;
+  border: 1.5px solid var(--nb-border); border-radius: var(--nb-radius);
+  background: var(--nb-bg); font-size: 14px; font-family: inherit;
+  cursor: pointer; color: var(--nb-text);
+}
+.nb-phone-input { flex: 1; min-width: 0; }
+
+/* SUMMARY BOX */
+.nb-summary { background: var(--nb-surface); border-radius: var(--nb-radius); padding: 4px 16px; margin-bottom: 22px; }
+.nb-summary-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 16px; padding: 12px 0; font-size: 14px;
+}
+.nb-summary-row + .nb-summary-row { border-top: 1px solid var(--nb-border); }
+.nb-summary-label { color: var(--nb-text-muted); flex-shrink: 0; }
+.nb-summary-value { font-weight: 600; text-align: end; }
+
+/* FOOTER ACTIONS */
+.nb-actions {
+  padding: 14px 22px 16px;
+  border-top: 1px solid var(--nb-border);
+  background: var(--nb-bg);
+  display: flex; gap: 10px; flex-shrink: 0;
+}
+.nb-btn {
+  flex: 1; padding: 14px; border: none; border-radius: var(--nb-radius);
+  font-size: 15px; font-weight: 600; font-family: inherit;
+  cursor: pointer; transition: all 0.15s;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+}
+.nb-btn-primary { background: var(--nb-primary); color: var(--nb-on-primary); }
+.nb-btn-primary:hover:not(:disabled) { background: var(--nb-primary-dark); }
+.nb-btn-primary:disabled { background: var(--nb-border); color: var(--nb-text-muted); cursor: not-allowed; }
+.nb-btn-secondary {
+  background: var(--nb-bg); color: var(--nb-text);
+  border: 1.5px solid var(--nb-border); flex: 0 0 auto; min-width: 90px;
+}
+.nb-btn-secondary:hover { background: var(--nb-surface); }
+.nb-back-chevron { display: inline-block; transition: transform 0.2s; }
+[dir="rtl"] .nb-back-chevron { transform: scaleX(-1); }
+.nb-btn-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid color-mix(in srgb, var(--nb-on-primary) 40%, transparent);
+  border-top-color: var(--nb-on-primary);
+  border-radius: 50%; animation: nbSpin 0.8s linear infinite;
+}
+
+/* BRANDING */
+.nb-branding {
+  padding: 6px 22px 10px; text-align: center;
+  font-size: 11px; color: var(--nb-text-muted);
+  background: var(--nb-bg); border-top: 1px solid var(--nb-border); flex-shrink: 0;
+}
+.nb-branding a { color: var(--nb-primary); text-decoration: none; font-weight: 600; }
+.nb-branding a:hover { text-decoration: underline; }
+.nb-branding.nb-hidden { display: none; }
+
+/* INLINE ERROR / NOTICE BANNER */
+.nb-banner {
+  padding: 10px 14px; border-radius: 8px; font-size: 13px; line-height: 1.55;
+  display: flex; gap: 8px; align-items: flex-start;
+  margin-bottom: 16px;
+}
+.nb-banner-error { background: var(--nb-error-bg); border: 1px solid var(--nb-error-border); color: #991B1B; }
+.nb-banner-warn { background: var(--nb-warn-bg); border: 1px solid var(--nb-warn-border); color: var(--nb-warn-text); }
+.nb-banner-icon { flex-shrink: 0; margin-top: 1px; }
+
+/* SUCCESS (live mode) */
+.nb-success-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--nb-success);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px; animation: nbPop 0.4s ease-out;
+}
+@keyframes nbPop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.nb-success-title { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 4px; }
+.nb-success-sub { font-size: 14px; color: var(--nb-text-muted); text-align: center; margin-bottom: 22px; }
+
+/* WHATSAPP MOCK (demo mode only) */
+.nb-wa-preview {
+  width: 100%; border-radius: 12px; overflow: hidden;
+  box-shadow: var(--nb-shadow); margin-bottom: 14px; border: 1px solid var(--nb-border);
+}
+.nb-wa-header { background: #075E54; color: white; padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
+.nb-wa-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--nb-primary); color: var(--nb-on-primary);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; flex-shrink: 0;
+  background-size: cover; background-position: center;
+}
+.nb-wa-meta { flex: 1; min-width: 0; }
+.nb-wa-name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nb-wa-status { font-size: 11px; opacity: 0.85; }
+.nb-wa-body {
+  padding: 18px 14px; min-height: 160px;
+  background: linear-gradient(180deg, #E5DDD5 0%, #ECE5DD 100%);
+  display: flex; align-items: flex-start; justify-content: flex-start;
+}
+[dir="rtl"] .nb-wa-body { justify-content: flex-end; }
+.nb-wa-bubble {
+  position: relative; background: white;
+  padding-block: 8px; padding-inline-start: 10px; padding-inline-end: 64px;
+  border-radius: 8px 8px 8px 0;
+  max-width: 88%; font-size: 13.5px; line-height: 1.55;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+  display: inline-block; min-width: 140px;
+  white-space: pre-line; word-break: break-word;
+}
+[dir="rtl"] .nb-wa-bubble { border-radius: 8px 8px 0 8px; }
+.nb-wa-text { display: inline; }
+.nb-wa-bubble-time {
+  position: absolute; bottom: 5px; inset-inline-end: 8px;
+  font-size: 10px; color: #999;
+  display: inline-flex; align-items: center; gap: 3px; white-space: nowrap;
+}
+.nb-wa-tick { display: inline-block; }
+.nb-wa-tick.single { color: #999; }
+.nb-wa-tick.double { color: #999; letter-spacing: -2px; }
+.nb-wa-tick.read { color: #53BDEB; letter-spacing: -2px; }
+
+.nb-demo-notice {
+  background: var(--nb-warn-bg); border: 1px solid var(--nb-warn-border);
+  border-radius: 8px; padding: 10px 12px; font-size: 12px; color: var(--nb-warn-text);
+  line-height: 1.55; display: flex; gap: 8px; align-items: flex-start; margin-bottom: 4px;
+}
+.nb-demo-notice-icon { flex-shrink: 0; margin-top: 1px; }
+
+/* LIVE-SUCCESS card */
+.nb-booking-ref {
+  background: var(--nb-surface); border: 1px dashed var(--nb-border);
+  border-radius: 8px; padding: 10px 14px; font-size: 12px;
+  color: var(--nb-text-muted); text-align: center; margin-top: 14px;
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+  word-break: break-all;
+}
+.nb-booking-ref strong { color: var(--nb-text); }
+
+/* UTIL */
+.nb-hidden { display: none !important; }
+.nb-main::-webkit-scrollbar { width: 6px; }
+.nb-main::-webkit-scrollbar-thumb { background: var(--nb-border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="nb-loading" id="nb-loading"><div class="nb-spinner"></div></div>
+
+<div class="nb-widget" id="nb-widget">
+
+  <header class="nb-header">
+    <div class="nb-brand">
+      <div class="nb-logo" id="nb-logo">NB</div>
+      <div class="nb-brand-text">
+        <div class="nb-business-name" id="nb-business-name">Noor Beauty Lounge</div>
+        <div class="nb-business-tag" id="nb-business-tag">Aesthetic &amp; Beauty Clinic</div>
+      </div>
+    </div>
+    <button class="nb-lang-toggle" id="nb-lang-toggle" type="button">العربية</button>
+  </header>
+
+  <div class="nb-steps" id="nb-steps">
+    <div class="nb-step-dot active" data-step="1"></div>
+    <div class="nb-step-dot" data-step="2"></div>
+    <div class="nb-step-dot" data-step="3"></div>
+    <div class="nb-step-dot" data-step="4"></div>
+  </div>
+  <div class="nb-step-label" id="nb-step-label"></div>
+
+  <main class="nb-main" id="nb-main">
+
+    <!-- Step 1: Service -->
+    <section id="nb-step-1">
+      <h2 class="nb-step-title" data-i18n="selectService">Select a service</h2>
+      <p class="nb-step-sub" data-i18n="selectServiceSub">Choose what you'd like to book</p>
+      <div id="nb-step1-banner"></div>
+      <div class="nb-service-list" id="nb-service-list"></div>
+    </section>
+
+    <!-- Step 2: Stylist (live mode) / Date & Time (demo mode) -->
+    <section id="nb-step-2" class="nb-hidden">
+      <!-- In live mode: stylist picker -->
+      <div id="nb-step2-stylist">
+        <h2 class="nb-step-title" data-i18n="selectStylist">Choose a stylist</h2>
+        <p class="nb-step-sub" data-i18n="selectStylistSub">Pick who you'd like to see</p>
+        <div id="nb-step2-banner"></div>
+        <div class="nb-stylist-list" id="nb-stylist-list"></div>
+      </div>
+    </section>
+
+    <!-- Step 3: Date & Time (live mode) -->
+    <section id="nb-step-3" class="nb-hidden">
+      <h2 class="nb-step-title" data-i18n="selectDateTime">Pick a date &amp; time</h2>
+      <p class="nb-step-sub" data-i18n="selectDateTimeSub">Available slots for the next 14 days</p>
+      <div id="nb-step3-banner"></div>
+      <div class="nb-date-strip" id="nb-date-strip"></div>
+      <div class="nb-slots-label" id="nb-slots-label" data-i18n="selectTime">Available times</div>
+      <div class="nb-slots" id="nb-slots"></div>
+    </section>
+
+    <!-- Step 4: Details + submit -->
+    <section id="nb-step-4" class="nb-hidden">
+      <h2 class="nb-step-title" data-i18n="yourDetails">Your details</h2>
+      <p class="nb-step-sub" data-i18n="yourDetailsSub">We'll send your confirmation here</p>
+      <div id="nb-step4-banner"></div>
+      <div class="nb-summary" id="nb-summary"></div>
+
+      <div class="nb-field">
+        <label class="nb-label" for="nb-name" data-i18n="fullName">Full name</label>
+        <input class="nb-input" type="text" id="nb-name" autocomplete="name">
+        <div class="nb-error-msg" id="nb-name-error" data-i18n="nameRequired">Please enter your name</div>
+      </div>
+
+      <div class="nb-field">
+        <label class="nb-label" for="nb-phone" data-i18n="phoneNumber">Phone number</label>
+        <div class="nb-phone-row">
+          <select class="nb-phone-code" id="nb-phone-code"></select>
+          <input class="nb-input nb-phone-input" type="tel" id="nb-phone" autocomplete="tel" inputmode="tel" placeholder="50 123 4567">
+        </div>
+        <div class="nb-error-msg" id="nb-phone-error" data-i18n="phoneRequired">Please enter a valid phone number</div>
+      </div>
+
+      <div class="nb-field">
+        <label class="nb-label" for="nb-email">Email (optional)</label>
+        <input class="nb-input" type="email" id="nb-email" autocomplete="email" placeholder="you@example.com">
+      </div>
+
+      <div class="nb-field">
+        <label class="nb-label" for="nb-notes" data-i18n="notes">Notes (optional)</label>
+        <input class="nb-input" type="text" id="nb-notes" placeholder="Allergies, preferences, etc.">
+      </div>
+
+      <!-- WhatsApp consent checkbox -->
+      <div class="nb-field">
+        <label class="nb-label flex items-center gap-2 cursor-pointer" style="flex-direction:row;align-items:center;font-weight:400">
+          <input type="checkbox" id="nb-whatsapp-consent" style="width:18px;height:18px;accent-color:var(--nb-primary);cursor:pointer" />
+          <span style="font-size:14px;color:var(--nb-text-muted)">📱 Send me a WhatsApp confirmation</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Step 5: Confirmation -->
+    <section id="nb-step-5" class="nb-hidden">
+      <div class="nb-success-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <h2 class="nb-success-title" data-i18n="bookingConfirmed">Booking confirmed</h2>
+      <p class="nb-success-sub" id="nb-success-sub" data-i18n="confirmationSent">A confirmation has been sent</p>
+
+      <!-- Live mode: real booking reference -->
+      <div id="nb-live-success" class="nb-hidden">
+        <div class="nb-summary" id="nb-booking-summary"></div>
+        <div class="nb-booking-ref" id="nb-booking-ref"></div>
+      </div>
+
+      <!-- Demo mode: WhatsApp mock -->
+      <div id="nb-demo-success" class="nb-hidden">
+        <div class="nb-wa-preview" id="nb-wa-preview">
+          <div class="nb-wa-header">
+            <div class="nb-wa-avatar" id="nb-wa-avatar">NB</div>
+            <div class="nb-wa-meta">
+              <div class="nb-wa-name" id="nb-wa-name">Noor Beauty Lounge</div>
+              <div class="nb-wa-status" data-i18n="online">online</div>
+            </div>
+          </div>
+          <div class="nb-wa-body">
+            <div class="nb-wa-bubble" id="nb-wa-bubble">
+              <span class="nb-wa-text" id="nb-wa-text"></span>
+              <span class="nb-wa-bubble-time">
+                <span id="nb-wa-time-text">--:--</span>
+                <span class="nb-wa-tick single" id="nb-wa-tick">✓</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="nb-demo-notice">
+          <span class="nb-demo-notice-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          </span>
+          <span data-i18n="demoNotice">Demo only — no real booking was created. This preview simulates a future WhatsApp Business API integration.</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="nb-actions" id="nb-actions">
+    <button class="nb-btn nb-btn-secondary nb-hidden" id="nb-back-btn" type="button">
+      <span class="nb-back-chevron">←</span> <span data-i18n="back">Back</span>
+    </button>
+    <button class="nb-btn nb-btn-primary" id="nb-next-btn" type="button" data-i18n="next" disabled>Next</button>
+  </div>
+
+  <div class="nb-branding" id="nb-branding">
+    Powered by <a href="https://glamchain.com" target="_blank" rel="noopener">GlamChain</a>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — inline defaults. Override at runtime via ?config=<url>.
+   Set business.bookingApiUrl + business.locationId to go LIVE
+   (real booking persistence + conflict detection).
+   Leave them null to stay in DEMO mode (mock WhatsApp animation).
+   ============================================================ */
+const DEFAULT_CONFIG = {
+  business: {
+    name:    "Noor Beauty Lounge",
+    nameAr:  "صالون نور للتجميل",
+    tagline: "Aesthetic & Beauty Clinic",
+    taglineAr: "عيادة التجميل والجمال",
+    monogram: "NB",
+    primaryColor: "#0F766E",
+    accentColor: "#1E3A8A",
+    logoUrl: null,
+    timezone: "Asia/Dubai",
+    ogImageUrl: null,
+    showBranding: true,
+    // === LIVE MODE ===
+    // Set both to wire the widget to a real GlamChain backend.
+    // bookingApiUrl: e.g. "https://api.glamchain.com/api/public" (no trailing slash)
+    // locationId:    the GlamChain Location ID this widget serves
+    bookingApiUrl: null,
+    locationId:    null,
+  },
+  services: [
+    { id: "consult",     name: "Aesthetic Consultation", nameAr: "استشارة تجميلية",     durationMin: 20 },
+    { id: "botox",       name: "Botox / Dysport",        nameAr: "بوتوكس / ديسبورت",    durationMin: 30 },
+    { id: "fillers",     name: "Dermal Fillers",         nameAr: "الفيلر الجلدي",       durationMin: 45 },
+    { id: "hydrafacial", name: "HydraFacial",            nameAr: "هيدرا فيشال",         durationMin: 60 },
+    { id: "laser",       name: "Laser Hair Removal",     nameAr: "إزالة الشعر بالليزر",  durationMin: 30 },
+  ],
+  workingHours: {
+    0: { open: "10:00", close: "20:00" },
+    1: { open: "10:00", close: "20:00" },
+    2: { open: "10:00", close: "20:00" },
+    3: { open: "10:00", close: "20:00" },
+    4: { open: "10:00", close: "20:00" },
+    5: null,
+    6: { open: "10:00", close: "20:00" },
+  },
+  slotGranularityMin: 30,
+  daysAhead: 14,
+  defaultLocale: "auto",
+  phone: {
+    countryCodes: [
+      { code: "+971", label: "🇦🇪 UAE +971" },
+      { code: "+966", label: "🇸🇦 KSA +966" },
+      { code: "+965", label: "🇰🇼 KW +965" },
+      { code: "+974", label: "🇶🇦 QA +974" },
+      { code: "+973", label: "🇧🇭 BH +973" },
+      { code: "+968", label: "🇴🇲 OM +968" },
+    ],
+    defaultCode: "+971",
+  },
+  demo: { whatsappMock: true },
+};
+
+let CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+
+/* ============================================================
+   ANALYTICS — pluggable adapter. Stubbed by default.
+   ============================================================ */
+const analytics = {
+  _adapter: null,
+  _queue: [],
+  setAdapter(fn) {
+    this._adapter = fn;
+    while (this._queue.length) {
+      const [event, payload] = this._queue.shift();
+      try { fn(event, payload); } catch (e) { console.warn('[analytics] adapter error', e); }
+    }
+  },
+  track(event, payload = {}) {
+    const enriched = { ...payload, business: CONFIG.business.name, locale: state.locale, ts: Date.now(), live: state.liveMode };
+    if (this._adapter) {
+      try { this._adapter(event, enriched); } catch (e) { console.warn('[analytics]', e); }
+    } else {
+      this._queue.push([event, enriched]);
+      console.debug('[analytics] (queued)', event, enriched);
+    }
+  },
+};
+
+/* ============================================================
+   I18N
+   ============================================================ */
+const I18N = {
+  en: {
+    _dir: "ltr",
+    selectService: "Select a service",
+    selectServiceSub: "Choose what you'd like to book",
+    selectStylist: "Choose a stylist",
+    selectStylistSub: "Pick who you'd like to see",
+    selectDateTime: "Pick a date & time",
+    selectDateTimeSub: "Available slots for the next 14 days",
+    selectTime: "Available times",
+    yourDetails: "Your details",
+    yourDetailsSub: "We'll send your confirmation here",
+    fullName: "Full name",
+    phoneNumber: "Phone number",
+    nameRequired: "Please enter your name",
+    phoneRequired: "Please enter a valid phone number",
+    confirm: "Confirm booking",
+    booking: "Booking...",
+    back: "Back",
+    next: "Next",
+    duration: "min",
+    closed: "Closed",
+    noSlots: "No slots available — try another day",
+    loadingServices: "Loading services...",
+    loadingStylists: "Loading stylists...",
+    loadingSlots: "Loading available times...",
+    bookingConfirmed: "Booking confirmed",
+    confirmationSent: "A confirmation has been sent to your phone",
+    confirmationSentLive: "Your booking is confirmed. We'll send a reminder closer to the date.",
+    bookingRef: "Booking reference",
+    online: "online",
+    summaryService: "Service",
+    summaryStylist: "Stylist",
+    summaryDate: "Date",
+    summaryTime: "Time",
+    summaryDuration: "Duration",
+    bookAnother: "Book another",
+    stepLabel: (n, total) => `Step ${n} of ${total}`,
+    waMessage: (name, service, dateStr, timeStr) =>
+      `Hi ${name}! Your booking at ${CONFIG.business.name} is confirmed:\n\n• ${service}\n• ${dateStr} at ${timeStr}\n\nReply C to confirm or R to reschedule. See you soon!`,
+    demoNotice: "Demo only — no real booking was created. This preview simulates a future WhatsApp Business API integration.",
+    backendUnreachable: "Couldn't reach the booking backend. Showing demo mode — your booking won't be saved.",
+    slotConflict: "This time was just booked by someone else. Please pick another slot.",
+    rateLimited: "Too many attempts. Please wait a minute and try again.",
+    bookingFailed: "Something went wrong creating your booking. Please try again.",
+    langToggle: "العربية",
+    metaDesc: () => `Book your appointment at ${CONFIG.business.name} online. Quick, easy, confirmation by WhatsApp.`,
+    ogTitle: () => `Book — ${CONFIG.business.name}`,
+    ogDesc: () => `Book your appointment at ${CONFIG.business.name} online.`,
+    anyStylist: "Any available stylist",
+    anyStylistSpec: "No preference",
+  },
+  ar: {
+    _dir: "rtl",
+    selectService: "اختر الخدمة",
+    selectServiceSub: "اختر ما تريد حجزه",
+    selectStylist: "اختر الأخصائي",
+    selectStylistSub: "اختر من تريد أن يخدمك",
+    selectDateTime: "اختر التاريخ والوقت",
+    selectDateTimeSub: "المواعيد المتاحة خلال الأيام الـ ١٤ القادمة",
+    selectTime: "المواعيد المتاحة",
+    yourDetails: "بياناتك",
+    yourDetailsSub: "سنرسل تأكيد الحجز إلى هنا",
+    fullName: "الاسم الكامل",
+    phoneNumber: "رقم الهاتف",
+    nameRequired: "الرجاء إدخال اسمك",
+    phoneRequired: "الرجاء إدخال رقم هاتف صحيح",
+    confirm: "تأكيد الحجز",
+    booking: "جاري الحجز...",
+    back: "رجوع",
+    next: "التالي",
+    duration: "دقيقة",
+    closed: "مغلق",
+    noSlots: "لا توجد مواعيد متاحة — جرّب يومًا آخر",
+    loadingServices: "جاري تحميل الخدمات...",
+    loadingStylists: "جاري تحميل الأخصائيين...",
+    loadingSlots: "جاري تحميل المواعيد المتاحة...",
+    bookingConfirmed: "تم تأكيد الحجز",
+    confirmationSent: "تم إرسال تأكيد إلى هاتفك",
+    confirmationSentLive: "تم تأكيد حجزك. سنرسل لك تذكيرًا قبل الموعد.",
+    bookingRef: "رقم المرجع",
+    online: "متصل الآن",
+    summaryService: "الخدمة",
+    summaryStylist: "الأخصائي",
+    summaryDate: "التاريخ",
+    summaryTime: "الوقت",
+    summaryDuration: "المدة",
+    bookAnother: "احجز موعدًا آخر",
+    stepLabel: (n, total) => `الخطوة ${n} من ${total}`,
+    waMessage: (name, service, dateStr, timeStr) =>
+      `مرحبًا ${name}! تم تأكيد حجزك في ${CONFIG.business.nameAr}:\n\n• ${service}\n• ${dateStr} الساعة ${timeStr}\n\nردّ بحرف C للتأكيد أو R لإعادة الجدولة. نراك قريبًا!`,
+    demoNotice: "هذا عرض تجريبي — لم يتم إنشاء حجز فعلي. هذه المعاينة تحاكي تكاملًا مستقبليًا مع WhatsApp Business API.",
+    backendUnreachable: "تعذّر الوصول إلى خادم الحجز. هذا وضع تجريبي — لن يتم حفظ حجزك.",
+    slotConflict: "تم حجز هذا الموعد من قبل شخص آخر. الرجاء اختيار موعد آخر.",
+    rateLimited: "محاولات كثيرة. الرجاء الانتظار دقيقة ثم المحاولة مرة أخرى.",
+    bookingFailed: "حدث خطأ أثناء إنشاء الحجز. الرجاء المحاولة مرة أخرى.",
+    langToggle: "English",
+    metaDesc: () => `احجز موعدك في ${CONFIG.business.nameAr} عبر الإنترنت. سريع وسهل، مع تأكيد عبر واتساب.`,
+    ogTitle: () => `احجز — ${CONFIG.business.nameAr}`,
+    ogDesc: () => `احجز موعدك في ${CONFIG.business.nameAr} عبر الإنترنت.`,
+    anyStylist: "أي أخصائي متاح",
+    anyStylistSpec: "بدون تفضيل",
+  },
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  locale: "en",
+  step: 1,
+  liveMode: false,           // true when bookingApiUrl + locationId are set
+  // Step 1: service
+  selectedService: null,
+  apiServices: [],           // [{ id, name, category, durationMin, price, description }] from API
+  loadingServices: false,
+  // Step 2: stylist
+  selectedStylist: null,    // { id, name, specialization } or { id: 'any', name: ... }
+  apiStylists: [],
+  loadingStylists: false,
+  // Step 3: date & time
+  selectedDate: null,       // Date at business-local midnight, stored as UTC
+  selectedTime: null,       // "HH:MM" in business-local time
+  apiSlots: [],             // [{ time, available }]
+  loadingSlots: false,
+  // Step 4: details
+  name: "",
+  phoneCode: CONFIG.phone.defaultCode,
+  phone: "",
+  email: "",
+  notes: "",
+  whatsappConsent: false,
+  // Step 5: confirmation
+  bookingResult: null,      // { appointment } from POST /api/public/booking
+  _dateStr: "",
+  _timeStr: "",
+  _waAnimDone: false,
+  _trackedBookingStart: false,
+  _submitting: false,
+};
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+
+function deepMerge(target, source) {
+  if (typeof target !== 'object' || target === null) return source;
+  if (typeof source !== 'object' || source === null) return source;
+  if (Array.isArray(source)) return source;
+  const out = { ...target };
+  for (const key of Object.keys(source)) {
+    const sv = source[key];
+    if (sv && typeof sv === 'object' && !Array.isArray(sv)) {
+      out[key] = deepMerge(target[key] || {}, sv);
+    } else {
+      out[key] = sv;
+    }
+  }
+  return out;
+}
+
+function shade(hex, percent) {
+  const num = parseInt(hex.replace("#", ""), 16);
+  const r = Math.max(0, Math.min(255, (num >> 16) + Math.round(255 * percent / 100)));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0xff) + Math.round(255 * percent / 100)));
+  const b = Math.max(0, Math.min(255, (num & 0xff) + Math.round(255 * percent / 100)));
+  return "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
+}
+
+function hexToRgb(hex) {
+  const n = parseInt(hex.replace("#", ""), 16);
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+function relativeLuminance({ r, g, b }) {
+  const toLin = c => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
+  return 0.2126 * toLin(r) + 0.7152 * toLin(g) + 0.0722 * toLin(b);
+}
+function contrastRatio(hex1, hex2) {
+  const l1 = relativeLuminance(hexToRgb(hex1));
+  const l2 = relativeLuminance(hexToRgb(hex2));
+  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+}
+function autoTextColor(bgHex) {
+  return contrastRatio(bgHex, "#0F172A") > contrastRatio(bgHex, "#FFFFFF") ? "#0F172A" : "#FFFFFF";
+}
+
+/* ---- Business-timezone helpers ---- */
+function businessNow(timezone) {
+  const realNow = new Date();
+  const fmt = new Intl.DateTimeFormat('en-US', {
+    timeZone: timezone,
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+  });
+  const parts = {};
+  fmt.formatToParts(realNow).forEach(p => { if (p.type !== 'literal') parts[p.type] = p.value; });
+  let hour = parseInt(parts.hour, 10); if (hour === 24) hour = 0;
+  return new Date(Date.UTC(
+    parseInt(parts.year, 10), parseInt(parts.month, 10) - 1, parseInt(parts.day, 10),
+    hour, parseInt(parts.minute, 10), parseInt(parts.second, 10),
+  ));
+}
+function businessMidnight(timezone, offsetDays = 0) {
+  const now = businessNow(timezone);
+  return new Date(Date.UTC(
+    now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + offsetDays, 0, 0, 0, 0
+  ));
+}
+function sameDay(a, b) {
+  return a.getUTCFullYear() === b.getUTCFullYear()
+      && a.getUTCMonth() === b.getUTCMonth()
+      && a.getUTCDate() === b.getUTCDate();
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
+
+/* ============================================================
+   EXTERNAL CONFIG LOADER
+   ============================================================ */
+async function loadExternalConfig() {
+  const params = new URLSearchParams(window.location.search);
+  const configUrl = params.get('config');
+  if (!configUrl) return { source: 'inline' };
+  try {
+    const url = configUrl + (configUrl.includes('?') ? '&' : '?') + '_t=' + Date.now();
+    const res = await fetch(url, { credentials: 'omit' });
+    if (!res.ok) throw new Error('config fetch failed: ' + res.status);
+    const external = await res.json();
+    CONFIG = deepMerge(CONFIG, external);
+    return { source: configUrl };
+  } catch (e) {
+    console.warn('[GlamChain] External config load failed, using inline defaults:', e);
+    return { source: 'inline', error: String(e) };
+  }
+}
+
+/* ============================================================
+   API BRIDGE — fetch services/stylists/slots + submit booking
+   ============================================================ */
+
+function apiUrl(path) {
+  return CONFIG.business.bookingApiUrl.replace(/\/$/, '') + path;
+}
+
+async function fetchServicesFromApi() {
+  state.loadingServices = true;
+  state.loadingStylists = true;
+  renderServices();
+  try {
+    const res = await fetch(apiUrl(`/booking?locationId=${encodeURIComponent(CONFIG.business.locationId)}`), { credentials: 'omit' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    // data.services is [{ category, services: [{ id, name, category, duration, price, description }] }]
+    // Flatten and normalize to widget shape
+    state.apiServices = (data.services || []).flatMap(g => g.services.map(s => ({
+      id: s.id, name: s.name, category: s.category,
+      durationMin: s.duration, price: s.price, description: s.description,
+    })));
+    state.apiStylists = (data.stylists || []).map(s => ({
+      id: s.id, name: s.name, specialization: s.specialization,
+      rating: s.rating, avatar: s.avatar,
+    }));
+    state.liveMode = true;
+    analytics.track('services_loaded', { count: state.apiServices.length, stylists: state.apiStylists.length });
+  } catch (e) {
+    console.warn('[GlamChain] API unreachable, falling back to demo mode:', e);
+    state.liveMode = false;
+    showBanner('nb-step1-banner', 'warn', t('backendUnreachable'));
+    analytics.track('api_unreachable', { error: String(e) });
+  } finally {
+    state.loadingServices = false;
+    state.loadingStylists = false;
+    renderServices();
+  }
+}
+
+async function fetchSlotsFromApi() {
+  if (!state.selectedDate || !state.selectedStylist || state.selectedStylist.id === 'any') {
+    state.apiSlots = [];
+    return;
+  }
+  state.loadingSlots = true;
+  state.apiSlots = [];
+  renderSlots();
+  try {
+    const dateStr = state.selectedDate.toISOString().slice(0, 10);
+    const url = apiUrl(`/booking/slots?stylistId=${encodeURIComponent(state.selectedStylist.id)}&date=${dateStr}&locationId=${encodeURIComponent(CONFIG.business.locationId)}`);
+    const res = await fetch(url, { credentials: 'omit' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    state.apiSlots = (data.slots || []).map(s => ({ time: s.time, available: s.available }));
+    analytics.track('slots_loaded', { count: state.apiSlots.length, available: state.apiSlots.filter(s => s.available).length });
+  } catch (e) {
+    console.warn('[GlamChain] Slots fetch failed:', e);
+    showBanner('nb-step3-banner', 'warn', t('backendUnreachable'));
+    state.liveMode = false;  // fall back to workingHours generation
+    state.apiSlots = [];
+  } finally {
+    state.loadingSlots = false;
+    renderSlots();
+  }
+}
+
+async function submitBookingToApi() {
+  if (state._submitting) return;
+  state._submitting = true;
+  updateNextButton();
+  try {
+    // Construct ISO date from selectedDate (UTC-representing-business-local) + selectedTime
+    const [h, m] = state.selectedTime.split(":").map(Number);
+    const apptDate = new Date(Date.UTC(
+      state.selectedDate.getUTCFullYear(),
+      state.selectedDate.getUTCMonth(),
+      state.selectedDate.getUTCDate(),
+      h, m, 0, 0
+    ));
+    const body = {
+      locationId: CONFIG.business.locationId,
+      stylistId: state.selectedStylist.id,
+      serviceId: state.selectedService.id,
+      customerName: state.name,
+      customerPhone: `${state.phoneCode} ${state.phone}`,
+      customerEmail: state.email || undefined,
+      date: apptDate.toISOString(),
+      notes: state.notes || undefined,
+      whatsappConsent: state.whatsappConsent || false,
+    };
+    const res = await fetch(apiUrl('/booking'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      credentials: 'omit',
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 201) {
+      state.bookingResult = data.appointment || { id: 'unknown' };
+      analytics.track('booking_confirmed', {
+        service_id: state.selectedService.id,
+        service_name: state.selectedService.name,
+        date: apptDate.toISOString().slice(0, 10),
+        time: state.selectedTime,
+        duration_min: state.selectedService.durationMin,
+        appointment_id: state.bookingResult.id,
+      });
+      state.step = 5;
+      state._waAnimDone = false;
+      renderStep();
+    } else if (res.status === 409) {
+      showBanner('nb-step3-banner', 'error', t('slotConflict'));
+      state.step = 3;
+      state.selectedTime = null;
+      await fetchSlotsFromApi();
+      renderStep();
+    } else if (res.status === 429) {
+      showBanner('nb-step4-banner', 'error', t('rateLimited'));
+    } else if (res.status === 400 && data.details) {
+      // Zod validation errors — surface first one
+      const first = Array.isArray(data.details) ? data.details[0] : null;
+      showBanner('nb-step4-banner', 'error', first ? first.message : t('bookingFailed'));
+    } else {
+      showBanner('nb-step4-banner', 'error', data.error || t('bookingFailed'));
+    }
+  } catch (e) {
+    console.error('[GlamChain] Booking submit failed:', e);
+    showBanner('nb-step4-banner', 'error', t('bookingFailed'));
+    analytics.track('booking_failed', { error: String(e) });
+  } finally {
+    state._submitting = false;
+    updateNextButton();
+  }
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+async function init() {
+  const cfgInfo = await loadExternalConfig();
+  detectIframe();
+  applyTheme();
+  detectLocale();
+  renderPhoneCodes();
+  bindEvents();
+  applyLocale();
+  hideLoading();
+
+  // Decide live vs demo mode
+  if (CONFIG.business.bookingApiUrl && CONFIG.business.locationId) {
+    state.liveMode = true;
+    await fetchServicesFromApi();
+  } else {
+    state.liveMode = false;
+  }
+
+  analytics.track('widget_viewed', {
+    config_source: cfgInfo.source,
+    embedded: document.body.classList.contains('nb-embedded'),
+    live_mode: state.liveMode,
+  });
+}
+
+function hideLoading() {
+  const el = document.getElementById('nb-loading');
+  if (el) { el.classList.add('hidden'); setTimeout(() => el.remove(), 350); }
+}
+
+function detectIframe() {
+  try {
+    if (window.self !== window.top) document.body.classList.add('nb-embedded');
+  } catch (e) { document.body.classList.add('nb-embedded'); }
+}
+
+function applyTheme() {
+  const root = document.documentElement;
+  const primary = CONFIG.business.primaryColor;
+  const onPrimary = autoTextColor(primary);
+  root.style.setProperty("--nb-primary", primary);
+  root.style.setProperty("--nb-primary-dark", shade(primary, -15));
+  root.style.setProperty("--nb-on-primary", onPrimary);
+  root.style.setProperty("--nb-accent", CONFIG.business.accentColor);
+
+  document.title = `${CONFIG.business.name} — Book Now`;
+  document.getElementById('nb-page-title').textContent = `${CONFIG.business.name} — Book Now`;
+
+  const t = I18N[state.locale] || I18N.en;
+  const desc = t.metaDesc();
+  const ogTitle = t.ogTitle();
+  const ogDesc = t.ogDesc();
+  const ogImage = CONFIG.business.ogImageUrl || '';
+  const canonicalUrl = window.location.href.split('?')[0];
+  setMeta('nb-meta-desc', 'content', desc);
+  setMeta('nb-og-title', 'content', ogTitle);
+  setMeta('nb-og-desc', 'content', ogDesc);
+  setMeta('nb-og-image', 'content', ogImage);
+  setMeta('nb-og-url', 'content', canonicalUrl);
+  setMeta('nb-tw-title', 'content', ogTitle);
+  setMeta('nb-tw-desc', 'content', ogDesc);
+  setMeta('nb-tw-image', 'content', ogImage);
+  setMeta('nb-theme-color', 'content', primary);
+
+  if (!CONFIG.business.logoUrl) {
+    const monogram = escapeHtml(CONFIG.business.monogram || 'G');
+    const color = primary.replace('#', '%23');
+    const svg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='${color}'/%3E%3Ctext x='16' y='22' font-family='system-ui,sans-serif' font-size='14' font-weight='700' fill='${onPrimary.replace('#', '%23')}' text-anchor='middle'%3E${monogram}%3C/text%3E%3C/svg%3E`;
+    document.getElementById('nb-favicon').setAttribute('href', svg);
+  }
+
+  const brandingEl = document.getElementById('nb-branding');
+  brandingEl.classList.toggle('nb-hidden', CONFIG.business.showBranding === false);
+}
+
+function setMeta(id, attr, value) {
+  const el = document.getElementById(id);
+  if (el) el.setAttribute(attr, value);
+}
+
+function t() {
+  return I18N[state.locale];
+}
+
+function detectLocale() {
+  if (CONFIG.defaultLocale === "auto") {
+    const bl = (navigator.language || "en").toLowerCase();
+    state.locale = bl.startsWith("ar") ? "ar" : "en";
+  } else {
+    state.locale = CONFIG.defaultLocale;
+  }
+}
+
+function applyLocale() {
+  const tt = I18N[state.locale];
+  document.documentElement.lang = state.locale;
+  document.documentElement.dir = tt._dir;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (typeof tt[key] === "string") el.textContent = tt[key];
+  });
+  document.getElementById("nb-lang-toggle").textContent = tt.langToggle;
+  renderBusiness();
+  renderStep();
+  applyTheme();
+}
+
+function toggleLocale() {
+  state.locale = state.locale === "en" ? "ar" : "en";
+  applyLocale();
+}
+
+/* ============================================================
+   RENDER — Business brand bits
+   ============================================================ */
+function renderBusiness() {
+  const isAr = state.locale === "ar";
+  document.getElementById("nb-business-name").textContent = isAr ? CONFIG.business.nameAr : CONFIG.business.name;
+  document.getElementById("nb-business-tag").textContent = isAr ? CONFIG.business.taglineAr : CONFIG.business.tagline;
+  const logo = document.getElementById("nb-logo");
+  const waAvatar = document.getElementById("nb-wa-avatar");
+  if (CONFIG.business.logoUrl) {
+    logo.style.backgroundImage = `url("${CONFIG.business.logoUrl}")`;
+    logo.textContent = "";
+    waAvatar.style.backgroundImage = `url("${CONFIG.business.logoUrl}")`;
+    waAvatar.textContent = "";
+  } else {
+    logo.style.backgroundImage = "";
+    logo.textContent = CONFIG.business.monogram;
+    waAvatar.style.backgroundImage = "";
+    waAvatar.textContent = CONFIG.business.monogram;
+  }
+  document.getElementById("nb-wa-name").textContent = isAr ? CONFIG.business.nameAr : CONFIG.business.name;
+}
+
+function renderPhoneCodes() {
+  const sel = document.getElementById("nb-phone-code");
+  sel.innerHTML = "";
+  CONFIG.phone.countryCodes.forEach(cc => {
+    const opt = document.createElement("option");
+    opt.value = cc.code;
+    opt.textContent = cc.label;
+    if (cc.code === state.phoneCode) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+/* ============================================================
+   BANNERS — inline error/warn notices
+   ============================================================ */
+function showBanner(containerId, type, message) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = `
+    <div class="nb-banner nb-banner-${type}">
+      <span class="nb-banner-icon">
+        ${type === 'error'
+          ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
+          : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'}
+      </span>
+      <span>${escapeHtml(message)}</span>
+    </div>
+  `;
+}
+function clearBanner(containerId) {
+  const el = document.getElementById(containerId);
+  if (el) el.innerHTML = '';
+}
+
+/* ============================================================
+   RENDER — Step orchestration
+   In LIVE mode: 4 steps (service → stylist → datetime → details) + step 5 = confirmation
+   In DEMO mode: 3 steps (service → datetime → details) + step 5 = confirmation
+   Step 2 (stylist) is hidden in demo mode.
+   ============================================================ */
+function renderStep() {
+  const tt = I18N[state.locale];
+  const isLive = state.liveMode;
+  const totalSteps = isLive ? 4 : 3;
+
+  // Map logical step (1..5) to section ID
+  // Live:  1=service, 2=stylist, 3=datetime, 4=details, 5=confirmation
+  // Demo:  1=service,        2=datetime, 3=details, 5=confirmation (skip stylist)
+  let sectionIds;
+  if (isLive) sectionIds = ['nb-step-1', 'nb-step-2', 'nb-step-3', 'nb-step-4', 'nb-step-5'];
+  else        sectionIds = ['nb-step-1', 'nb-step-3', 'nb-step-4', 'nb-step-5'];
+
+  // Hide all sections
+  for (let i = 1; i <= 5; i++) {
+    const el = document.getElementById(`nb-step-${i}`);
+    if (el) el.classList.add('nb-hidden');
+  }
+  // Show current
+  const currentSectionId = sectionIds[state.step - 1];
+  if (currentSectionId) document.getElementById(currentSectionId).classList.remove('nb-hidden');
+
+  // Hide stylist section in demo mode
+  document.getElementById('nb-step2-stylist').classList.toggle('nb-hidden', !isLive);
+
+  // Step dots — show 4 in live, 3 in demo
+  const dots = document.querySelectorAll('.nb-step-dot');
+  dots.forEach((dot, i) => {
+    dot.classList.remove('active', 'done');
+    if (i >= totalSteps) { dot.style.display = 'none'; return; }
+    dot.style.display = '';
+    if (state.step === 5 || state.step > totalSteps) {
+      dot.classList.add('done');
+    } else if (i + 1 < state.step) {
+      dot.classList.add('done');
+    } else if (i + 1 === state.step) {
+      dot.classList.add('active');
+    }
+  });
+
+  // Step label
+  const labelEl = document.getElementById('nb-step-label');
+  labelEl.textContent = state.step === 5 ? '' : tt.stepLabel(state.step, totalSteps);
+
+  // Footer buttons
+  const backBtn = document.getElementById('nb-back-btn');
+  const nextBtn = document.getElementById('nb-next-btn');
+  if (state.step === 1) {
+    backBtn.classList.add('nb-hidden');
+    nextBtn.innerHTML = tt.next;
+  } else if (state.step === 5) {
+    backBtn.classList.add('nb-hidden');
+    nextBtn.innerHTML = tt.bookAnother;
+    nextBtn.disabled = false;
+  } else if (state.step === totalSteps) {
+    // Details step
+    backBtn.classList.remove('nb-hidden');
+    nextBtn.innerHTML = state._submitting
+      ? `<span class="nb-btn-spinner"></span> ${tt.booking}`
+      : tt.confirm;
+  } else {
+    backBtn.classList.remove('nb-hidden');
+    nextBtn.innerHTML = tt.next;
+  }
+
+  // Per-step render
+  if (state.step === 1) renderServices();
+  else if (isLive && state.step === 2) renderStylists();
+  else if ((!isLive && state.step === 2) || (isLive && state.step === 3)) renderDateTime();
+  else if ((!isLive && state.step === 3) || (isLive && state.step === 4)) renderDetails();
+  else if (state.step === 5) renderConfirmation();
+
+  updateNextButton();
+}
+
+function updateNextButton() {
+  const nextBtn = document.getElementById('nb-next-btn');
+  if (state.step === 5) { nextBtn.disabled = false; return; }
+  if (state._submitting) { nextBtn.disabled = true; return; }
+  let enabled = false;
+  if (state.step === 1) enabled = !!state.selectedService;
+  else if (state.liveMode && state.step === 2) enabled = !!state.selectedStylist;
+  else if ((state.liveMode && state.step === 3) || (!state.liveMode && state.step === 2)) {
+    enabled = !!state.selectedDate && !!state.selectedTime;
+  } else if ((state.liveMode && state.step === 4) || (!state.liveMode && state.step === 3)) {
+    enabled = true; // validated on submit
+  }
+  nextBtn.disabled = !enabled;
+}
+
+/* ============================================================
+   STEP 1 — Service picker
+   ============================================================ */
+function renderServices() {
+  const tt = I18N[state.locale];
+  const isAr = state.locale === "ar";
+  const list = document.getElementById('nb-service-list');
+  list.innerHTML = "";
+
+  if (!state._trackedBookingStart) {
+    state._trackedBookingStart = true;
+    analytics.track('booking_started', {});
+  }
+
+  if (state.loadingServices) {
+    for (let i = 0; i < 3; i++) {
+      const card = document.createElement('div');
+      card.className = 'nb-skeleton-card';
+      card.innerHTML = `<div class="nb-skeleton-line short"></div><div class="nb-skeleton-line full"></div>`;
+      list.appendChild(card);
+    }
+    list.insertAdjacentHTML('beforeend', `<div style="text-align:center;color:var(--nb-text-muted);font-size:13px;margin-top:8px">${escapeHtml(tt.loadingServices)}</div>`);
+    return;
+  }
+
+  // Source: API (live) or inline CONFIG (demo)
+  const services = state.liveMode ? state.apiServices : CONFIG.services;
+
+  services.forEach(svc => {
+    const card = document.createElement('button');
+    card.className = 'nb-service-card';
+    card.type = 'button';
+    card.setAttribute('aria-pressed', state.selectedService?.id === svc.id ? 'true' : 'false');
+    if (state.selectedService?.id === svc.id) card.classList.add('selected');
+    // In live mode, services come from API (English only). In demo, use locale.
+    const name = state.liveMode ? svc.name : (isAr ? (svc.nameAr || svc.name) : svc.name);
+    const priceStr = svc.price ? ' · ' + (svc.priceAr && isAr ? svc.priceAr : new Intl.NumberFormat(state.locale, { style: 'currency', currency: 'AED' }).format(svc.price)) : '';
+    card.innerHTML = `
+      <div class="nb-service-info">
+        <div class="nb-service-name">${escapeHtml(name)}</div>
+        <div class="nb-service-meta">${svc.durationMin} ${tt.duration}${priceStr}</div>
+      </div>
+      <div class="nb-service-check">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      state.selectedService = svc;
+      renderServices();
+      updateNextButton();
+      analytics.track('service_selected', { service_id: svc.id, service_name: name });
+    });
+    list.appendChild(card);
+  });
+}
+
+/* ============================================================
+   STEP 2 (live) — Stylist picker
+   ============================================================ */
+function renderStylists() {
+  const tt = I18N[state.locale];
+  const list = document.getElementById('nb-stylist-list');
+  list.innerHTML = '';
+
+  if (state.loadingStylists) {
+    for (let i = 0; i < 2; i++) {
+      const card = document.createElement('div');
+      card.className = 'nb-skeleton-card';
+      card.innerHTML = `<div class="nb-skeleton-line short"></div><div class="nb-skeleton-line full"></div>`;
+      list.appendChild(card);
+    }
+    list.insertAdjacentHTML('beforeend', `<div style="text-align:center;color:var(--nb-text-muted);font-size:13px;margin-top:8px">${escapeHtml(tt.loadingStylists)}</div>`);
+    return;
+  }
+
+  const stylists = state.apiStylists.length > 0 ? state.apiStylists : [{ id: 'any', name: tt.anyStylist, specialization: tt.anyStylistSpec }];
+
+  stylists.forEach(st => {
+    const card = document.createElement('button');
+    card.className = 'nb-stylist-card';
+    card.type = 'button';
+    card.setAttribute('aria-pressed', state.selectedStylist?.id === st.id ? 'true' : 'false');
+    if (state.selectedStylist?.id === st.id) card.classList.add('selected');
+    const ratingStr = st.rating ? ` · ★ ${st.rating.toFixed(1)}` : '';
+    card.innerHTML = `
+      <div class="nb-stylist-info">
+        <div class="nb-stylist-name">${escapeHtml(st.name)}</div>
+        <div class="nb-stylist-meta">${escapeHtml(st.specialization || '')}${ratingStr}</div>
+      </div>
+      <div class="nb-stylist-check">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      state.selectedStylist = st;
+      state.selectedDate = null;
+      state.selectedTime = null;
+      state.apiSlots = [];
+      renderStylists();
+      updateNextButton();
+      analytics.track('stylist_selected', { stylist_id: st.id, stylist_name: st.name });
+    });
+    list.appendChild(card);
+  });
+}
+
+/* ============================================================
+   STEP 3 — Date strip + time slots
+   In live mode: slots fetched from API (with conflict detection)
+   In demo mode: slots generated from workingHours
+   ============================================================ */
+function renderDateTime() {
+  renderDateStrip();
+  renderSlots();
+}
+
+function renderDateStrip() {
+  const strip = document.getElementById('nb-date-strip');
+  strip.innerHTML = '';
+  const tz = CONFIG.business.timezone;
+  const today = businessMidnight(tz);
+
+  const dowFmt = new Intl.DateTimeFormat(state.locale, { timeZone: 'UTC', weekday: 'short' });
+  const dayFmt = new Intl.DateTimeFormat(state.locale, { timeZone: 'UTC', day: 'numeric' });
+  const monFmt = new Intl.DateTimeFormat(state.locale, { timeZone: 'UTC', month: 'short' });
+
+  for (let i = 0; i < CONFIG.daysAhead; i++) {
+    const date = new Date(today);
+    date.setUTCDate(today.getUTCDate() + i);
+    const dow = date.getUTCDay();
+    const hours = CONFIG.workingHours[dow];
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'nb-date-chip';
+    if (!hours && !state.liveMode) chip.classList.add('closed');
+    if (state.selectedDate && sameDay(date, state.selectedDate)) chip.classList.add('selected');
+    chip.innerHTML = `
+      <div class="nb-date-dow">${dowFmt.format(date)}</div>
+      <div class="nb-date-day">${dayFmt.format(date)}</div>
+      <div class="nb-date-mon">${monFmt.format(date)}</div>
+    `;
+    if (hours || state.liveMode) {
+      chip.addEventListener('click', () => {
+        state.selectedDate = date;
+        state.selectedTime = null;
+        renderDateStrip();
+        if (state.liveMode) {
+          fetchSlotsFromApi();
+        } else {
+          renderSlots();
+        }
+        updateNextButton();
+        analytics.track('date_selected', { date: date.toISOString().slice(0, 10) });
+      });
+    }
+    strip.appendChild(chip);
+  }
+}
+
+function renderSlots() {
+  const tt = I18N[state.locale];
+  const slotsEl = document.getElementById('nb-slots');
+  slotsEl.innerHTML = '';
+
+  if (state.loadingSlots) {
+    slotsEl.innerHTML = `<div class="nb-no-slots">${escapeHtml(tt.loadingSlots)}</div>`;
+    return;
+  }
+
+  if (!state.selectedDate) {
+    slotsEl.innerHTML = `<div class="nb-no-slots">${tt.noSlots}</div>`;
+    return;
+  }
+
+  // LIVE: use API slots (with conflict detection)
+  if (state.liveMode && state.apiSlots.length > 0) {
+    const available = state.apiSlots.filter(s => s.available);
+    if (available.length === 0) {
+      slotsEl.innerHTML = `<div class="nb-no-slots">${tt.noSlots}</div>`;
+      return;
+    }
+    const timeFmt = new Intl.DateTimeFormat(state.locale, { timeZone: 'UTC', hour: 'numeric', minute: '2-digit', hour12: true });
+    state.apiSlots.forEach(s => {
+      const [h, m] = s.time.split(':').map(Number);
+      const slotDate = new Date(Date.UTC(
+        state.selectedDate.getUTCFullYear(), state.selectedDate.getUTCMonth(), state.selectedDate.getUTCDate(),
+        h, m, 0, 0
+      ));
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'nb-slot';
+      btn.disabled = !s.available;
+      if (state.selectedTime === s.time) btn.classList.add('selected');
+      btn.textContent = timeFmt.format(slotDate);
+      if (s.available) {
+        btn.addEventListener('click', () => {
+          state.selectedTime = s.time;
+          clearBanner('nb-step3-banner');
+          renderSlots();
+          updateNextButton();
+          analytics.track('time_selected', { time: s.time });
+        });
+      }
+      slotsEl.appendChild(btn);
+    });
+    return;
+  }
+
+  // DEMO: generate from workingHours
+  const dow = state.selectedDate.getUTCDay();
+  const hours = CONFIG.workingHours[dow];
+  if (!hours) {
+    slotsEl.innerHTML = `<div class="nb-no-slots">${tt.noSlots}</div>`;
+    return;
+  }
+  const allSlots = generateSlots(hours.open, hours.close, CONFIG.slotGranularityMin);
+  const tz = CONFIG.business.timezone;
+  const nowBiz = businessNow(tz);
+  const isToday = sameDay(state.selectedDate, nowBiz);
+  const available = allSlots.filter(s => {
+    if (!isToday) return true;
+    const [h, m] = s.split(':').map(Number);
+    const slotDate = new Date(Date.UTC(
+      state.selectedDate.getUTCFullYear(), state.selectedDate.getUTCMonth(), state.selectedDate.getUTCDate(),
+      h, m, 0, 0
+    ));
+    return slotDate > nowBiz;
+  });
+  if (available.length === 0) {
+    slotsEl.innerHTML = `<div class="nb-no-slots">${tt.noSlots}</div>`;
+    return;
+  }
+  const timeFmt = new Intl.DateTimeFormat(state.locale, { timeZone: 'UTC', hour: 'numeric', minute: '2-digit', hour12: true });
+  available.forEach(s => {
+    const [h, m] = s.split(':').map(Number);
+    const slotDate = new Date(Date.UTC(
+      state.selectedDate.getUTCFullYear(), state.selectedDate.getUTCMonth(), state.selectedDate.getUTCDate(),
+      h, m, 0, 0
+    ));
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'nb-slot';
+    if (state.selectedTime === s) btn.classList.add('selected');
+    btn.textContent = timeFmt.format(slotDate);
+    btn.addEventListener('click', () => {
+      state.selectedTime = s;
+      renderSlots();
+      updateNextButton();
+      analytics.track('time_selected', { time: s });
+    });
+    slotsEl.appendChild(btn);
+  });
+}
+
+function generateSlots(openStr, closeStr, granularityMin) {
+  const [oh, om] = openStr.split(':').map(Number);
+  const [ch, cm] = closeStr.split(':').map(Number);
+  const openMin = oh * 60 + om;
+  const closeMin = ch * 60 + cm;
+  const slots = [];
+  for (let m = openMin; m + granularityMin <= closeMin; m += granularityMin) {
+    const h = Math.floor(m / 60);
+    const min = m % 60;
+    slots.push(`${String(h).padStart(2, '0')}:${String(min).padStart(2, '0')}`);
+  }
+  return slots;
+}
+
+/* ============================================================
+   STEP 4 — Details + summary
+   ============================================================ */
+function renderDetails() {
+  const tt = I18N[state.locale];
+  const isAr = state.locale === 'ar';
+  const svc = state.selectedService;
+  const svcName = isAr && !state.liveMode ? (svc.nameAr || svc.name) : svc.name;
+
+  const dateFmt = new Intl.DateTimeFormat(state.locale, { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const dateStr = dateFmt.format(state.selectedDate);
+
+  const [h, m] = state.selectedTime.split(':').map(Number);
+  const timeDate = new Date(Date.UTC(
+    state.selectedDate.getUTCFullYear(), state.selectedDate.getUTCMonth(), state.selectedDate.getUTCDate(),
+    h, m, 0, 0
+  ));
+  const timeFmt = new Intl.DateTimeFormat(state.locale, { timeZone: 'UTC', hour: 'numeric', minute: '2-digit', hour12: true });
+  const timeStr = timeFmt.format(timeDate);
+
+  state._dateStr = dateStr;
+  state._timeStr = timeStr;
+
+  const summary = document.getElementById('nb-summary');
+  const stylistName = state.selectedStylist ? state.selectedStylist.name : tt.anyStylist;
+  summary.innerHTML = `
+    <div class="nb-summary-row">
+      <span class="nb-summary-label">${tt.summaryService}</span>
+      <span class="nb-summary-value">${escapeHtml(svcName)}</span>
+    </div>
+    ${state.liveMode ? `
+    <div class="nb-summary-row">
+      <span class="nb-summary-label">${tt.summaryStylist}</span>
+      <span class="nb-summary-value">${escapeHtml(stylistName)}</span>
+    </div>` : ''}
+    <div class="nb-summary-row">
+      <span class="nb-summary-label">${tt.summaryDate}</span>
+      <span class="nb-summary-value">${escapeHtml(dateStr)}</span>
+    </div>
+    <div class="nb-summary-row">
+      <span class="nb-summary-label">${tt.summaryTime}</span>
+      <span class="nb-summary-value">${escapeHtml(timeStr)}</span>
+    </div>
+    <div class="nb-summary-row">
+      <span class="nb-summary-label">${tt.summaryDuration}</span>
+      <span class="nb-summary-value">${svc.durationMin} ${tt.duration}</span>
+    </div>
+  `;
+}
+
+function validateDetails() {
+  const tt = I18N[state.locale];
+  let valid = true;
+  const nameEl = document.getElementById('nb-name');
+  const phoneEl = document.getElementById('nb-phone');
+  const nameErr = document.getElementById('nb-name-error');
+  const phoneErr = document.getElementById('nb-phone-error');
+
+  nameErr.classList.remove('show');
+  phoneErr.classList.remove('show');
+  nameEl.classList.remove('error');
+  phoneEl.classList.remove('error');
+
+  state.name = nameEl.value.trim();
+  state.phone = phoneEl.value.trim();
+  state.email = document.getElementById('nb-email').value.trim();
+  state.notes = document.getElementById('nb-notes').value.trim();
+  const whatsappCheckbox = document.getElementById('nb-whatsapp-consent');
+  state.whatsappConsent = whatsappCheckbox ? whatsappCheckbox.checked : false;
+
+  if (!state.name || state.name.length < 2) {
+    nameErr.textContent = tt.nameRequired;
+    nameErr.classList.add('show');
+    nameEl.classList.add('error');
+    valid = false;
+  }
+  const digits = state.phone.replace(/\D/g, '');
+  if (digits.length < 6) {
+    phoneErr.textContent = tt.phoneRequired;
+    phoneErr.classList.add('show');
+    phoneEl.classList.add('error');
+    valid = false;
+  }
+  return valid;
+}
+
+/* ============================================================
+   STEP 5 — Confirmation
+   LIVE mode: show real booking reference + summary
+   DEMO mode: WhatsApp mock animation
+   ============================================================ */
+function renderConfirmation() {
+  const tt = I18N[state.locale];
+  const liveSuccess = document.getElementById('nb-live-success');
+  const demoSuccess = document.getElementById('nb-demo-success');
+  const successSub = document.getElementById('nb-success-sub');
+
+  if (state.liveMode && state.bookingResult) {
+    liveSuccess.classList.remove('nb-hidden');
+    demoSuccess.classList.add('nb-hidden');
+    successSub.textContent = tt.confirmationSentLive;
+
+    const appt = state.bookingResult;
+    const summary = document.getElementById('nb-booking-summary');
+    const isAr = state.locale === 'ar';
+    const svcName = state.selectedService.name;
+    const stylistName = state.selectedStylist ? state.selectedStylist.name : tt.anyStylist;
+
+    summary.innerHTML = `
+      <div class="nb-summary-row"><span class="nb-summary-label">${tt.summaryService}</span><span class="nb-summary-value">${escapeHtml(svcName)}</span></div>
+      <div class="nb-summary-row"><span class="nb-summary-label">${tt.summaryStylist}</span><span class="nb-summary-value">${escapeHtml(stylistName)}</span></div>
+      <div class="nb-summary-row"><span class="nb-summary-label">${tt.summaryDate}</span><span class="nb-summary-value">${escapeHtml(state._dateStr)}</span></div>
+      <div class="nb-summary-row"><span class="nb-summary-label">${tt.summaryTime}</span><span class="nb-summary-value">${escapeHtml(state._timeStr)}</span></div>
+    `;
+    document.getElementById('nb-booking-ref').innerHTML = `${tt.bookingRef}: <strong>${escapeHtml(appt.id || '—')}</strong>`;
+    return;
+  }
+
+  // DEMO mode
+  liveSuccess.classList.add('nb-hidden');
+  demoSuccess.classList.remove('nb-hidden');
+  successSub.textContent = tt.confirmationSent;
+
+  const isAr = state.locale === 'ar';
+  const svc = state.selectedService;
+  const svcName = isAr ? (svc.nameAr || svc.name) : svc.name;
+  const waText = tt.waMessage(state.name, svcName, state._dateStr, state._timeStr);
+
+  const textEl = document.getElementById('nb-wa-text');
+  const tickEl = document.getElementById('nb-wa-tick');
+  const timeTextEl = document.getElementById('nb-wa-time-text');
+
+  const tz = CONFIG.business.timezone;
+  const nowFmt = new Intl.DateTimeFormat(state.locale, { timeZone: tz, hour: 'numeric', minute: '2-digit', hour12: true });
+  timeTextEl.textContent = nowFmt.format(new Date());
+
+  if (state._waAnimDone) {
+    textEl.textContent = waText;
+    tickEl.textContent = '✓✓';
+    tickEl.className = 'nb-wa-tick read';
+  } else {
+    textEl.textContent = '';
+    tickEl.textContent = '✓';
+    tickEl.className = 'nb-wa-tick single';
+    animateWhatsAppMessage(waText, textEl, tickEl);
+    analytics.track('booking_confirmed', {
+      service_id: svc.id, service_name: svcName,
+      date: state.selectedDate.toISOString().slice(0, 10), time: state.selectedTime,
+      duration_min: svc.durationMin, demo: true,
+    });
+  }
+}
+
+function animateWhatsAppMessage(text, textEl, tickEl) {
+  let i = 0;
+  const speed = 22;
+  function typeChar() {
+    if (i < text.length) {
+      textEl.textContent += text[i];
+      i++;
+      setTimeout(typeChar, speed);
+    } else {
+      setTimeout(() => {
+        tickEl.textContent = '✓✓';
+        tickEl.className = 'nb-wa-tick double';
+        setTimeout(() => {
+          tickEl.className = 'nb-wa-tick read';
+          state._waAnimDone = true;
+        }, 900);
+      }, 500);
+    }
+  }
+  typeChar();
+}
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+function bindEvents() {
+  document.getElementById('nb-lang-toggle').addEventListener('click', toggleLocale);
+
+  document.getElementById('nb-back-btn').addEventListener('click', () => {
+    if (state.step > 1 && state.step < 5) {
+      state.step--;
+      renderStep();
+    }
+  });
+
+  document.getElementById('nb-next-btn').addEventListener('click', async () => {
+    const isLive = state.liveMode;
+    const totalSteps = isLive ? 4 : 3;
+
+    if (state.step === 1 && state.selectedService) {
+      state.step = 2;
+      state.selectedDate = null;
+      state.selectedTime = null;
+      state.apiSlots = [];
+      state.selectedStylist = null;
+      renderStep();
+    } else if (isLive && state.step === 2 && state.selectedStylist) {
+      state.step = 3;
+      renderStep();
+    } else if ((isLive && state.step === 3) || (!isLive && state.step === 2)) {
+      if (state.selectedDate && state.selectedTime) {
+        state.step = isLive ? 4 : 3;
+        analytics.track('datetime_selected', {
+          date: state.selectedDate.toISOString().slice(0, 10), time: state.selectedTime,
+        });
+        renderStep();
+      }
+    } else if ((isLive && state.step === 4) || (!isLive && state.step === 3)) {
+      // Details step — validate then either submit (live) or confirm (demo)
+      if (validateDetails()) {
+        if (state.liveMode) {
+          await submitBookingToApi();
+        } else {
+          state.step = 5;
+          state._waAnimDone = false;
+          renderStep();
+        }
+      }
+    } else if (state.step === 5) {
+      // Book another — reset everything
+      state.step = 1;
+      state.selectedService = null;
+      state.selectedStylist = null;
+      state.selectedDate = null;
+      state.selectedTime = null;
+      state.apiSlots = [];
+      state.bookingResult = null;
+      state._waAnimDone = false;
+      document.getElementById('nb-name').value = '';
+      document.getElementById('nb-phone').value = '';
+      document.getElementById('nb-email').value = '';
+      document.getElementById('nb-notes').value = '';
+      const waCheckbox = document.getElementById('nb-whatsapp-consent');
+      if (waCheckbox) waCheckbox.checked = false;
+      ['nb-step1-banner', 'nb-step2-banner', 'nb-step3-banner', 'nb-step4-banner'].forEach(clearBanner);
+      renderStep();
+    }
+  });
+
+  ['nb-name', 'nb-phone'].forEach(id => {
+    const el = document.getElementById(id);
+    const errId = id + '-error';
+    el.addEventListener('input', () => {
+      document.getElementById(errId).classList.remove('show');
+      el.classList.remove('error');
+    });
+  });
+
+  window.addEventListener('pagehide', () => {
+    if (state.step < 5) {
+      analytics.track('booking_abandoned', { step: state.step, live: state.liveMode });
+    }
+  });
+}
+
+// Expose for host pages
+window.GlamChain = { analytics, get config() { return CONFIG; } };
+
+// GO!
+init();
+</script>
+</body>
+</html>

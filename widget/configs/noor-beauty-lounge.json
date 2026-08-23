@@ -1,0 +1,46 @@
+{
+  "business": {
+    "name": "Noor Beauty Lounge",
+    "nameAr": "صالون نور للتجميل",
+    "tagline": "Aesthetic & Beauty Clinic",
+    "taglineAr": "عيادة التجميل والجمال",
+    "monogram": "NB",
+    "primaryColor": "#0F766E",
+    "accentColor": "#1E3A8A",
+    "logoUrl": null,
+    "timezone": "Asia/Dubai",
+    "ogImageUrl": null,
+    "showBranding": true
+  },
+  "services": [
+    { "id": "consult",     "name": "Aesthetic Consultation", "nameAr": "استشارة تجميلية",     "durationMin": 20 },
+    { "id": "botox",       "name": "Botox / Dysport",        "nameAr": "بوتوكس / ديسبورت",    "durationMin": 30 },
+    { "id": "fillers",     "name": "Dermal Fillers",         "nameAr": "الفيلر الجلدي",       "durationMin": 45 },
+    { "id": "hydrafacial", "name": "HydraFacial",            "nameAr": "هيدرا فيشال",         "durationMin": 60 },
+    { "id": "laser",       "name": "Laser Hair Removal",     "nameAr": "إزالة الشعر بالليزر",  "durationMin": 30 }
+  ],
+  "workingHours": {
+    "0": { "open": "10:00", "close": "20:00" },
+    "1": { "open": "10:00", "close": "20:00" },
+    "2": { "open": "10:00", "close": "20:00" },
+    "3": { "open": "10:00", "close": "20:00" },
+    "4": { "open": "10:00", "close": "20:00" },
+    "5": null,
+    "6": { "open": "10:00", "close": "20:00" }
+  },
+  "slotGranularityMin": 30,
+  "daysAhead": 14,
+  "defaultLocale": "auto",
+  "phone": {
+    "countryCodes": [
+      { "code": "+971", "label": "🇦🇪 UAE +971" },
+      { "code": "+966", "label": "🇸🇦 KSA +966" },
+      { "code": "+965", "label": "🇰🇼 KW +965" },
+      { "code": "+974", "label": "🇶🇦 QA +974" },
+      { "code": "+973", "label": "🇧🇭 BH +973" },
+      { "code": "+968", "label": "🇴🇲 OM +968" }
+    ],
+    "defaultCode": "+971"
+  },
+  "demo": { "whatsappMock": true }
+}

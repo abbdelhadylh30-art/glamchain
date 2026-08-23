@@ -1,0 +1,54 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# testing
+coverage/
+
+# next.js (per-app)
+.next/
+landing/.next/
+dashboard/.next/
+out/
+
+# production
+build/
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# local env files
+.env*.local
+dashboard/.env.local
+landing/.env.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# prisma
+dashboard/prisma/dev.db
+dashboard/prisma/dev.db-journal
+dashboard/prisma/migrations/
+
+# logs
+*.log
+dashboard.log
+landing.log
+widget.log
+
+# IDE
+.idea/
+.vscode/
+*.swp

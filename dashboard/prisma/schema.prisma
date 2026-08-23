@@ -1,0 +1,314 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  super_admin
+  owner
+  receptionist
+  staff
+}
+
+enum AppointmentStatus {
+  confirmed
+  pending
+  completed
+  cancelled
+  no_show
+}
+
+// ============================================================
+// TENANT — top-level multi-tenant boundary.
+// Each Tenant represents one salon chain (one SaaS customer).
+// All data models below carry tenantId; queries must always scope by it.
+// super_admin users may have null tenantId (platform-level admin).
+// ============================================================
+model Tenant {
+  id           String   @id @default(cuid())
+  name         String                              // "GlamChain Qatar", "Azure Med Spa Dubai"
+  slug         String   @unique                    // URL-safe identifier: "glamchain-qatar", "azure-med-spa"
+  contactEmail String
+  contactPhone String?
+  // Branding — surfaced via /api/config so the widget can be configured from the DB
+  primaryColor String   @default("#0F766E")
+  accentColor  String   @default("#1E3A8A")
+  monogram     String   @default("G")
+  logoUrl      String?
+  timezone     String   @default("Asia/Dubai")
+  currency     String   @default("AED")
+  locale       String   @default("en")
+  // SaaS plan / freemium levers (set by platform admin, not by tenant)
+  plan         String   @default("free")           // "free" | "pro" | "enterprise"
+  showBranding Boolean  @default(true)             // false on paid tier = remove "Powered by GlamChain"
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  locations    Location[]
+  users        User[]
+  customers    Customer[]
+  services     Service[]
+  stylists     Stylist[]
+  appointments Appointment[]
+  inventory    InventoryItem[]
+  expenses    Expense[]
+  auditLogs   AuditLog[]
+  whatsappMessages WhatsAppMessageLog[]
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  password     String
+  role         Role      @default(staff)
+  avatar       String?
+  phone        String?
+  locationId   String?
+  // tenantId is nullable: platform-level super_admin has no tenant.
+  // All other roles must have a tenantId (enforced at app level, since SQLite can't enforce conditional required).
+  tenantId     String?
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  location     Location? @relation(fields: [locationId], references: [id])
+  tenant       Tenant?   @relation(fields: [tenantId], references: [id])
+
+  @@index([locationId])
+  @@index([tenantId])
+  @@index([isActive])
+}
+
+model Location {
+  id          String   @id @default(cuid())
+  tenantId    String
+  name        String
+  address     String
+  city        String
+  phone       String
+  email       String
+  isActive    Boolean  @default(true)
+  openTime    String   @default("09:00")
+  closeTime   String   @default("21:00")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant       Tenant   @relation(fields: [tenantId], references: [id])
+  users       User[]
+  stylists    Stylist[]
+  customers   Customer[]
+  appointments Appointment[]
+  inventory   InventoryItem[]
+  expenses    Expense[]
+
+  @@index([tenantId])
+  @@index([isActive])
+}
+
+model Stylist {
+  id             String   @id @default(cuid())
+  tenantId       String
+  name           String
+  email          String
+  phone          String
+  avatar         String?
+  locationId     String
+  specialization String
+  rating         Float    @default(0)
+  totalReviews   Int      @default(0)
+  commissionRate Float    @default(0.3)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  tenant       Tenant   @relation(fields: [tenantId], references: [id])
+  location      Location  @relation(fields: [locationId], references: [id])
+  appointments   Appointment[]
+
+  @@index([tenantId])
+  @@index([locationId])
+  @@index([isActive])
+}
+
+model Customer {
+  id            String    @id @default(cuid())
+  tenantId      String
+  name          String
+  email         String?
+  // phone is unique PER TENANT — same phone can exist in two different tenants' customer lists
+  phone         String
+  locationId    String?
+  loyaltyPoints Int       @default(0)
+  totalSpent    Float     @default(0)
+  totalVisits   Int       @default(0)
+  lastVisit     DateTime?
+  notes         String?
+  whatsappOptIn     Boolean  @default(false)
+  whatsappOptInAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  location      Location?  @relation(fields: [locationId], references: [id])
+  appointments  Appointment[]
+
+  @@index([tenantId])
+  @@index([locationId])
+  @@index([phone])
+  @@unique([phone, tenantId])
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  tenantId    String
+  name        String
+  category    String
+  duration    Int      // minutes
+  price       Float
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  appointments Appointment[]
+
+  @@index([tenantId])
+  @@index([isActive])
+}
+
+model Appointment {
+  id            String   @id @default(cuid())
+  tenantId      String
+  locationId    String
+  customerId    String
+  stylistId     String
+  serviceId     String
+  date          DateTime
+  status        AppointmentStatus @default(confirmed)
+  paymentMethod String?  // cash, card, digital_wallet
+  notes         String?
+  totalPrice    Float
+  // WhatsApp consent + message tracking
+  whatsappConsent   Boolean  @default(false)
+  whatsappConsentAt DateTime?
+  whatsappMessageId String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant       Tenant   @relation(fields: [tenantId], references: [id])
+  location      Location @relation(fields: [locationId], references: [id])
+  customer      Customer @relation(fields: [customerId], references: [id])
+  stylist       Stylist  @relation(fields: [stylistId], references: [id])
+  service       Service  @relation(fields: [serviceId], references: [id])
+
+  @@index([tenantId])
+  @@index([locationId])
+  @@index([stylistId])
+  @@index([customerId])
+  @@index([date])
+  @@index([status])
+}
+
+model InventoryItem {
+  id            String    @id @default(cuid())
+  tenantId      String
+  locationId    String
+  name          String
+  category      String
+  quantity      Int
+  minStock      Int       @default(5)
+  unitPrice     Float
+  supplier      String?
+  lastRestocked DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  tenant       Tenant   @relation(fields: [tenantId], references: [id])
+  location      Location  @relation(fields: [locationId], references: [id])
+
+  @@index([tenantId])
+  @@index([locationId])
+  @@index([category])
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  tenantId    String
+  locationId  String
+  category    String
+  description String
+  amount      Float
+  date        DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  location    Location  @relation(fields: [locationId], references: [id])
+
+  @@index([tenantId])
+  @@index([locationId])
+  @@index([category])
+  @@index([date])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  userEmail  String?
+  userRole   String?
+  tenantId   String?  // nullable for platform-level events
+  action     String
+  resource   String?
+  method     String?
+  path       String?
+  statusCode Int?
+  ipAddress  String?
+  userAgent  String?
+  details    String?
+  createdAt  DateTime @default(now())
+
+  tenant     Tenant?  @relation(fields: [tenantId], references: [id])
+
+  @@index([userId])
+  @@index([tenantId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+// ============================================================
+// WHATSAPP MESSAGE LOG — tracks every WhatsApp message sent/received.
+// Records the Meta message ID, delivery status, and timestamps.
+// Used by the dashboard's WhatsApp message log view.
+// ============================================================
+model WhatsAppMessageLog {
+  id              String   @id @default(cuid())
+  tenantId        String
+  appointmentId   String?
+  customerId      String?
+  phoneNumber     String
+  direction       String   @default("outbound")  // "outbound" | "inbound"
+  templateName    String?
+  messageId       String?  // Meta's message ID (for delivery tracking)
+  status          String   @default("queued")    // queued → sent → delivered → read → failed
+  content         String?  // message body (for debugging + log display)
+  error           String?  // if failed, the error message
+  sentAt          DateTime?
+  deliveredAt     DateTime?
+  readAt          DateTime?
+  createdAt       DateTime @default(now())
+
+  tenant          Tenant   @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId])
+  @@index([appointmentId])
+  @@index([customerId])
+  @@index([status])
+  @@index([createdAt])
+}

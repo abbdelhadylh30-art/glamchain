@@ -1,0 +1,25 @@
+{
+  "business": {
+    "name": "Azure Med Spa",
+    "nameAr": "أزور ميد سبا",
+    "tagline": "Dermatology & Aesthetics",
+    "taglineAr": "الجلدية والتجميل",
+    "monogram": "AM",
+    "primaryColor": "#0EA5E9",
+    "accentColor": "#1E3A8A",
+    "logoUrl": null,
+    "timezone": "Asia/Dubai",
+    "ogImageUrl": "https://glamchain.com/og/azure-med-spa.png",
+    "showBranding": true,
+
+    "bookingApiUrl": "http://localhost:3001/api/public",
+    "locationId": "REPLACE_WITH_REAL_LOCATION_ID"
+  },
+  "phone": {
+    "countryCodes": [
+      { "code": "+971", "label": "🇦🇪 UAE +971" },
+      { "code": "+966", "label": "🇸🇦 KSA +966" }
+    ],
+    "defaultCode": "+971"
+  }
+}
