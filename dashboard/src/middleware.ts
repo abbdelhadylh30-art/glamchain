@@ -46,6 +46,8 @@ const ALLOWED_ORIGINS = (process.env.WIDGET_ALLOWED_ORIGINS || '')
     // Same-origin dashboard dev server (won't hurt)
     'http://localhost:3001',
     'http://127.0.0.1:3001',
+    // Production landing (Vercel)
+    'https://glamchain.vercel.app',
   ])
 
 function corsHeaders(origin: string | null) {
