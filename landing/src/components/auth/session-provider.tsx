@@ -11,7 +11,7 @@ function SessionSync({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (session?.user) {
       setAuthenticated(true)
-      setUserRole(session.user.role || 'staff')
+      setUserRole((session.user as { role?: string | null }).role || 'staff')
     } else {
       setAuthenticated(false)
       setUserRole('staff')
