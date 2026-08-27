@@ -52,3 +52,4 @@ widget.log
 .idea/
 .vscode/
 *.swp
+.brand/

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: `${businessConfig.name} — Maison de Beauté`,
     description: `Doha's boutique luxury salon. Signature rituals, master stylists, effortless booking.`,
     type: "website",
-    images: [{ url: "/images/hero-salon.png", width: 864, height: 1152, alt: `${businessConfig.name} salon interior` }],
+    // image served automatically from src/app/opengraph-image.tsx (1200×630 brand card)
   },
   twitter: {
     card: "summary_large_image",

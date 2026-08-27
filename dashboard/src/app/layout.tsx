@@ -24,18 +24,16 @@ export const metadata: Metadata = {
   description: `The command centre for your ${businessConfig.name} salon — today's chair, your guests, and the marketing that fills the quiet hours.`,
   keywords: ["salon", "dashboard", "appointments", "stylists", "chain management"],
   authors: [{ name: businessConfig.name }],
-  icons: {
-    icon: "/logo.svg",
-  },
+  // favicon (icon.svg / apple-icon / favicon.ico) + OG image served from src/app/ file conventions
   openGraph: {
-    title: `${businessConfig.name} Dashboard`,
-    description: "Manage your salon chain with ease",
+    title: `${businessConfig.name} Studio — Salon Command Centre`,
+    description: "Today's chair, your guests, and the marketing that fills the quiet hours — one calm workspace.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${businessConfig.name} Dashboard`,
-    description: "Manage your salon chain with ease",
+    title: `${businessConfig.name} Studio — Salon Command Centre`,
+    description: "Today's chair, your guests, and the marketing that fills the quiet hours — one calm workspace.",
   },
 };
 

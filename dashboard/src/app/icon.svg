@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'Glam';
+        src: url(data:font/woff2;base64,d09GMgABAAAAAANsAA8AAAAABwQAAAMVAAEz+AAAAAAAAAAAAAAAAAAAAAAAAAAAGhQbYBwqBmA/U1RBVEQAPBEICoIAgXYBNgIkAxALCgAEIAWFSAcgG+0FKB6FcfNyyRS8ZAqaxb8IEUR5UNWTLEidwJesH5WjtTWLJ5OoXqGRNInFlXPLpEKlwz+qcOkA+IS/OBUw0eBajxEJWExDm8c8D/ZqpbVAFkEtGOvWWmkNK1Gw1uveKpP1KUayMjMzmdzjFgiUBwTuQ1nNdZWGjzxeILt+iatDVg5/Rs26FbYOGThcLpU5lJZUBjXVFZIQQnJRt9QaqTsgnzzNSLMlSactFDBubixUrjsEGRzOyNsCPG6U/7xvkSQ/2T8ISCk9jcYyEfszqC6hubRrlegirHmsogpCrrKAyNJsIBNSVAQBEjJUlwlUl2uNknIhGeW/KICfKB4sxkOAEEWhEkIOSiNhCrAUKI3ymmVHlF93+jt9Lix3erNyV7yt7HXv9r3t3bKnvU2ew+/sCu6rdfHlEUeuurdn3PjMM2zxc63ccMMVlL3sqrKn3dD8/rfn3HffjSPvvTfr9Eccfrjrj9Zbf+y0N4ZN67V5oHS1+bVqxIa5tRV1ZjS4fGLD1j0m9uy+sM7+Ud/VN62sf9Zzf19cdWn7v+8+p3rnxY/XafXT4Oqdx03rPlvdexVL1ZzXcmL9Tpsvmz7pvXnb83PFfK9jTe9r0uS+ps1uhve7WV5KUsKHlaGfl70XCxcDQnT7c2L5mqsX5fr/VjrLvod3G0waD8C395gN/v+lyOZf5KejpASCx+o/SND/+4wRqDx56qr/3tap0npWVT+B3OVKOVlJodlJoJzTZCIvQzSHgdC45pBUjOGQGdpUyHXuAiihbk9LJXXsU1lQPpWHTOXVhgrKp9bvUVHZ1N0wBlPEJhGIXA1dddZFL41NJ+I0TKbCIjxMYmsYTuIwj5rsGDaDjEO5GobwuEQGm6OhtdVcLpNjpZNOVpHKd/YQM8sYNHPLqDCPgyMQcGyOeQylafVQe43tMs4apuKMMJtvMOBHMuiVDRNh2nWjNW2ztXQUao6hwBuZbaljjnw3/Ywcu7XGethnatNi5vVUzi0rS7rTbYjRTvf0jvsKf+iMo5FsGFTMjgtTSagTgwbTxYHiCtUR) format('woff2');
+        font-weight: 600;
+      }
+    </style>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2dfab"/>
+      <stop offset=".45" stop-color="#ddba70"/>
+      <stop offset="1" stop-color="#b8923f"/>
+    </linearGradient>
+    <radialGradient id="bg" cx=".5" cy=".36" r=".9">
+      <stop offset="0" stop-color="#271d16"/>
+      <stop offset=".7" stop-color="#1a1410"/>
+      <stop offset="1" stop-color="#120d09"/>
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="32" fill="url(#bg)"/>
+  <circle cx="32" cy="32" r="27.5" fill="none" stroke="url(#gold)" stroke-width="1.1" opacity=".9"/>
+  <circle cx="32" cy="32" r="24.5" fill="none" stroke="url(#gold)" stroke-width=".55" opacity=".45"/>
+  <text x="32" y="42.5" font-family="Glam" font-weight="600" font-size="37.5" text-anchor="middle" fill="url(#gold)">G</text>
+  <path d="M32 45.6l2.1 2.6-2.1 2.6-2.1-2.6z" fill="#e9ce8c" opacity=".95"/>
+</svg>
