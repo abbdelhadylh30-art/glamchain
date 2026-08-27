@@ -3,17 +3,17 @@
 import { useAppStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 import { getBusinessConfig } from '@/lib/config'
-import { ROLE_HIERARCHY, NAV_ACCESS, canAccessNav } from '@/lib/roles'
-import type { RoleType } from '@/lib/roles'
+import { canAccessNav } from '@/lib/roles'
 import {
-  LayoutDashboard,
-  Calendar,
+  CalendarCheck2,
+  CalendarDays,
   Scissors,
   Users,
+  Megaphone,
   Package,
-  DollarSign,
+  Wallet,
   Settings,
-  ChevronLeft,
+  PanelLeftClose,
   MapPin,
   X,
 } from 'lucide-react'
@@ -28,23 +28,37 @@ import {
 } from '@/components/ui/select'
 import { useEffect, useState } from 'react'
 
-const navItems = [
-  { id: 'dashboard' as const, label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'appointments' as const, label: 'Appointments', icon: Calendar },
-  { id: 'stylists' as const, label: 'Stylists', icon: Scissors },
-  { id: 'customers' as const, label: 'Customers', icon: Users },
-  { id: 'services' as const, label: 'Services & Inventory', icon: Package },
-  { id: 'financials' as const, label: 'Financials', icon: DollarSign },
-  { id: 'settings' as const, label: 'Settings', icon: Settings },
-]
-
-// Nav access and role hierarchy are imported from @/lib/roles (single source of truth)
-
 interface Location {
   id: string
   name: string
   city: string
 }
+
+const navGroups: { label: string; items: { id: string; label: string; icon: typeof CalendarDays; hint?: string }[] }[] = [
+  {
+    label: 'Your Day',
+    items: [
+      { id: 'dashboard', label: 'Today', icon: CalendarCheck2 },
+      { id: 'appointments', label: 'Appointments', icon: CalendarDays },
+    ],
+  },
+  {
+    label: 'Grow',
+    items: [
+      { id: 'customers', label: 'Guests', icon: Users },
+      { id: 'marketing', label: 'Marketing', icon: Megaphone, hint: 'New' },
+    ],
+  },
+  {
+    label: 'Salon',
+    items: [
+      { id: 'stylists', label: 'Artists', icon: Scissors },
+      { id: 'services', label: 'Services & Stock', icon: Package },
+      { id: 'financials', label: 'Financials', icon: Wallet },
+      { id: 'settings', label: 'Settings', icon: Settings },
+    ],
+  },
+]
 
 export function Sidebar() {
   const { currentPage, setCurrentPage, selectedLocation, setSelectedLocation, sidebarOpen, setSidebarOpen, userRole } = useAppStore()
@@ -57,18 +71,15 @@ export function Sidebar() {
       .then(data => {
         if (data.locations) setLocations(data.locations)
       })
-      .catch((err) => { console.error('Failed to fetch:', err) })
+      .catch(() => {})
   }, [])
-
-  // Filter nav items based on user role (using shared canAccessNav)
-  const visibleNavItems = navItems.filter(item => canAccessNav(userRole, item.id))
 
   return (
     <>
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          className="fixed inset-0 z-40 bg-[#241c14]/55 backdrop-blur-sm lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -79,32 +90,35 @@ export function Sidebar() {
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:overflow-hidden lg:border-0'
         )}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 h-16 border-b border-sidebar-border shrink-0">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Scissors className="w-4 h-4 text-primary-foreground" />
-            </div>
-            <span className="text-lg font-bold text-sidebar-foreground">{businessConfig.name}</span>
+        {/* Brand */}
+        <div className="flex items-center justify-between px-4 h-[72px] border-b border-sidebar-border shrink-0">
+          <div className="flex items-center gap-2.5 overflow-hidden">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c8a24b55] bg-gradient-to-br from-[#332814] to-[#221a12]">
+              <Scissors className="w-4 h-4 text-sidebar-primary" />
+            </span>
+            <span className="leading-none">
+              <span className="block font-serif text-[1.05rem] font-semibold tracking-[0.06em] text-sidebar-foreground truncate">{businessConfig.name}</span>
+              <span className="mt-0.5 block text-[8.5px] font-medium uppercase tracking-[0.34em] text-[#8d7f66]">Salon Studio</span>
+            </span>
           </div>
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden h-8 w-8"
+            className="lg:hidden h-8 w-8 text-sidebar-foreground/70 hover:text-sidebar-foreground"
             onClick={() => setSidebarOpen(false)}
           >
             <X className="w-4 h-4" />
           </Button>
         </div>
 
-        {/* Location Selector */}
-        <div className="px-4 py-3 border-b border-sidebar-border shrink-0">
+        {/* Location selector */}
+        <div className="px-4 py-3.5 border-b border-sidebar-border shrink-0">
           <div className="flex items-center gap-2 mb-2">
-            <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Location</span>
+            <MapPin className="w-3.5 h-3.5 text-[#8d7f66]" />
+            <span className="text-[10px] font-semibold text-[#8d7f66] uppercase tracking-[0.22em]">Location</span>
           </div>
           <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-            <SelectTrigger className="w-full h-9 text-sm">
+            <SelectTrigger className="w-full h-9 text-[13px] bg-[#2a2113] border-[#3a2f1d] text-sidebar-foreground hover:bg-[#2e2517] focus:ring-sidebar-ring">
               <SelectValue placeholder="All Locations" />
             </SelectTrigger>
             <SelectContent>
@@ -118,42 +132,61 @@ export function Sidebar() {
           </Select>
         </div>
 
-        {/* Navigation */}
+        {/* Grouped navigation */}
         <ScrollArea className="flex-1">
-          <nav className="px-3 py-4 space-y-1">
-            {visibleNavItems.map((item) => {
-              const isActive = currentPage === item.id
+          <nav className="px-3 py-4 space-y-5">
+            {navGroups.map((group) => {
+              const visible = group.items.filter(item => canAccessNav(userRole, item.id))
+              if (!visible.length) return null
               return (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    setCurrentPage(item.id)
-                    if (window.innerWidth < 1024) setSidebarOpen(false)
-                  }}
-                  className={cn(
-                    'flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-                    isActive
-                      ? 'bg-sidebar-accent text-sidebar-primary'
-                      : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
-                  )}
-                >
-                  <item.icon className={cn('w-4.5 h-4.5', isActive && 'text-sidebar-primary')} />
-                  {item.label}
-                </button>
+                <div key={group.label}>
+                  <p className="px-3 mb-1.5 text-[9.5px] font-semibold uppercase tracking-[0.26em] text-[#7a6d55]">{group.label}</p>
+                  <div className="space-y-0.5">
+                    {visible.map((item) => {
+                      const isActive = currentPage === item.id
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => {
+                            setCurrentPage(item.id as typeof currentPage)
+                            if (window.innerWidth < 1024) setSidebarOpen(false)
+                          }}
+                          className={cn(
+                            'group relative flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-[13.5px] font-medium transition-all duration-300',
+                            isActive
+                              ? 'bg-sidebar-accent text-sidebar-primary shadow-[inset_0_1px_0_rgba(200,162,75,0.08)]'
+                              : 'text-sidebar-foreground/65 hover:bg-[#2a2113] hover:text-sidebar-foreground'
+                          )}
+                        >
+                          {isActive && (
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-gradient-to-b from-[#e9ce8c] to-[#b3903f]" />
+                          )}
+                          <item.icon className={cn('w-4 h-4 shrink-0 transition-transform duration-300', isActive ? 'text-sidebar-primary' : 'group-hover:scale-110')} />
+                          <span className="truncate">{item.label}</span>
+                          {item.hint && (
+                            <span className="ml-auto rounded-full bg-[#c8a24b22] border border-[#c8a24b44] px-1.5 py-px text-[9px] font-bold uppercase tracking-wider text-sidebar-primary">
+                              {item.hint}
+                            </span>
+                          )}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
               )
             })}
           </nav>
         </ScrollArea>
 
-        {/* Footer */}
+        {/* Footer — expand */}
         <div className="px-4 py-3 border-t border-sidebar-border shrink-0">
           <Button
             variant="ghost"
             size="sm"
-            className="w-full justify-start gap-2 text-muted-foreground hidden lg:flex"
+            className="w-full justify-start gap-2 text-[#8d7f66] hover:text-sidebar-foreground hover:bg-[#2a2113] hidden lg:flex"
             onClick={() => setSidebarOpen(false)}
           >
-            <ChevronLeft className="w-4 h-4" />
+            <PanelLeftClose className="w-4 h-4" />
             Collapse
           </Button>
         </div>

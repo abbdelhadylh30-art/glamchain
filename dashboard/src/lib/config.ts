@@ -20,35 +20,32 @@ export function getBusinessConfig() {
 
 /**
  * Format a number as currency using the client-configured currency.
- * Falls back to USD if config is unavailable.
+ * Uses the configured symbol with Latin (Western) digits so the UI stays
+ * readable for English-first staff — ar-* locales render Eastern Arabic
+ * numerals + RTL marks, which reads as corrupted text in a data table.
  */
 export function formatCurrency(value: number): string {
-  const { locale, code } = getCurrencyConfig()
-  try {
-    return new Intl.NumberFormat(locale, { style: 'currency', currency: code }).format(value)
-  } catch {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
-  }
+  const { symbol } = getCurrencyConfig()
+  const num = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value)
+  return symbol ? `${symbol} ${num}` : num
 }
 
 /**
  * Format a number with locale-appropriate grouping.
  */
 export function formatNumber(value: number): string {
-  const { locale } = getCurrencyConfig()
-  try {
-    return new Intl.NumberFormat(locale).format(value)
-  } catch {
-    return new Intl.NumberFormat('en-US').format(value)
-  }
+  return new Intl.NumberFormat('en-US').format(value)
 }
 
 export const statusColors: Record<string, string> = {
-  confirmed: 'bg-emerald-100 text-emerald-700',
-  pending: 'bg-amber-100 text-amber-700',
-  completed: 'bg-blue-100 text-blue-700',
-  cancelled: 'bg-red-100 text-red-700',
-  no_show: 'bg-orange-100 text-orange-700',
+  confirmed: 'bg-[#7d8b6a1f] text-[#5c6b48]',
+  pending: 'bg-[#c8a24b26] text-[#8a6d2a]',
+  completed: 'bg-[#b3903f1f] text-[#96742c]',
+  cancelled: 'bg-[#b4543f1a] text-[#a04c38]',
+  no_show: 'bg-[#b3715822] text-[#a05f45]',
 }
 
 export const statusLabels: Record<string, string> = {

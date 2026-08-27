@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-type Page = 'dashboard' | 'appointments' | 'stylists' | 'customers' | 'services' | 'inventory' | 'financials' | 'settings'
+type Page = 'dashboard' | 'appointments' | 'stylists' | 'customers' | 'marketing' | 'services' | 'inventory' | 'financials' | 'settings'
 
 interface AppState {
   currentPage: Page

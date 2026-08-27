@@ -1,7 +1,7 @@
 {
   "business": {
     "name": "GlamChain",
-    "tagline": "Salon Chain Management",
+    "tagline": "Salon Studio",
     "contactEmail": "admin@glamchain.com",
     "contactPhone": "+974 4411 2233",
     "website": "www.glamchain.qa"
@@ -9,7 +9,7 @@
   "currency": {
     "code": "QAR",
     "symbol": "QR",
-    "locale": "ar-QA",
+    "locale": "ar-QA-u-nu-latn",
     "name": "Qatari Riyal"
   },
   "user": {

@@ -1,35 +1,39 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display, Manrope } from "next/font/google";
 import "./globals.css";
 import { getBusinessConfig } from "@/lib/config";
 import { SessionProvider } from "@/components/auth/session-provider";
 
 const businessConfig = getBusinessConfig();
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  title: `${businessConfig.name} — Premium Salon Experience`,
-  description: `${businessConfig.name} — where beauty meets elegance. Book your appointment online with our expert stylists.`,
-  keywords: ["salon", "booking", "appointments", businessConfig.name],
+  title: `${businessConfig.name} — Maison de Beauté · Luxury Salon in West Bay, Doha`,
+  description: `A warm, luminous sanctuary for hair, skin and self. Signature rituals, master stylists and effortless online booking at ${businessConfig.name}, Doha's boutique luxury salon.`,
+  keywords: ["luxury salon", "doha salon", "west bay salon", "hair", "balayage", "keratin", "bridal", "manicure", "spa", businessConfig.name],
   authors: [{ name: businessConfig.name }],
   openGraph: {
-    title: `${businessConfig.name} — Premium Salon Experience`,
-    description: `Book your appointment at ${businessConfig.name}.`,
+    title: `${businessConfig.name} — Maison de Beauté`,
+    description: `Doha's boutique luxury salon. Signature rituals, master stylists, effortless booking.`,
     type: "website",
+    images: [{ url: "/images/hero-salon.png", width: 864, height: 1152, alt: `${businessConfig.name} salon interior` }],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${businessConfig.name}`,
-    description: `Book your appointment at ${businessConfig.name}.`,
+    title: `${businessConfig.name} — Maison de Beauté`,
+    description: `Doha's boutique luxury salon. Signature rituals, master stylists, effortless booking.`,
   },
 };
 
@@ -41,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${playfair.variable} ${manrope.variable} antialiased bg-background text-foreground font-sans`}
       >
         <SessionProvider>{children}</SessionProvider>
       </body>

@@ -14,6 +14,7 @@ import { CustomersView } from '@/components/customers/customers-view'
 import { ServicesView } from '@/components/services/services-view'
 import { FinancialsView } from '@/components/financials/financials-view'
 import { SettingsView } from '@/components/settings/settings-view'
+import { MarketingView } from '@/components/marketing/marketing-view'
 
 export default function DashboardPage() {
   const { data: session, status } = useSession()
@@ -37,6 +38,8 @@ export default function DashboardPage() {
         return <StylistsView />
       case 'customers':
         return <CustomersView />
+      case 'marketing':
+        return <MarketingView />
       case 'services':
       case 'inventory':
         return <ServicesView />

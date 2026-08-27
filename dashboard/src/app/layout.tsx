@@ -1,24 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display, Manrope } from "next/font/google";
 import "./globals.css";
 import { getBusinessConfig } from "@/lib/config";
 import { SessionProvider } from "@/components/auth/session-provider";
 
 const businessConfig = getBusinessConfig();
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  title: `${businessConfig.name} - Salon Chain Dashboard`,
-  description: `Comprehensive dashboard for managing your ${businessConfig.name} salon chain operations, appointments, stylists, and finances.`,
+  title: `${businessConfig.name} — Salon Studio`,
+  description: `The command centre for your ${businessConfig.name} salon — today's chair, your guests, and the marketing that fills the quiet hours.`,
   keywords: ["salon", "dashboard", "appointments", "stylists", "chain management"],
   authors: [{ name: businessConfig.name }],
   icons: {
@@ -44,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${playfair.variable} ${manrope.variable} antialiased bg-background text-foreground font-sans`}
       >
         <SessionProvider>{children}</SessionProvider>
       </body>

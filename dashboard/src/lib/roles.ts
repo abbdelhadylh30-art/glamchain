@@ -45,17 +45,17 @@ export const ROLE_LABELS: Record<RoleType, string> = {
 }
 
 export const ROLE_COLORS: Record<RoleType, string> = {
-  super_admin: 'bg-rose-100 text-rose-700',
-  owner: 'bg-purple-100 text-purple-700',
-  receptionist: 'bg-teal-100 text-teal-700',
-  staff: 'bg-amber-100 text-amber-700',
+  super_admin: 'bg-amber-100 text-amber-800',
+  owner: 'bg-[#c8a24b]/15 text-[#8a6d2a]',
+  receptionist: 'bg-rose-100 text-rose-800',
+  staff: 'bg-stone-200 text-stone-700',
 }
 
 export const ROLE_BADGE_COLORS: Record<RoleType, string> = {
-  super_admin: 'bg-rose-100 text-rose-700 text-[10px]',
-  owner: 'bg-purple-100 text-purple-700 text-[10px]',
-  receptionist: 'bg-teal-100 text-teal-700 text-[10px]',
-  staff: 'bg-amber-100 text-amber-700 text-[10px]',
+  super_admin: 'bg-amber-100 text-amber-800 text-[10px]',
+  owner: 'bg-[#c8a24b]/15 text-[#8a6d2a] text-[10px]',
+  receptionist: 'bg-rose-100 text-rose-800 text-[10px]',
+  staff: 'bg-stone-200 text-stone-700 text-[10px]',
 }
 
 // ---------------------------------------------------------------------------
@@ -66,6 +66,7 @@ export const NAV_ACCESS: Record<string, RoleType> = {
   appointments: Role.STAFF,
   stylists: Role.STAFF,
   customers: Role.RECEPTIONIST,
+  marketing: Role.OWNER,
   services: Role.STAFF,
   financials: Role.OWNER,
   settings: Role.OWNER,
@@ -125,6 +126,10 @@ export const PERMISSIONS = {
   settings_locations_manage: Role.SUPER_ADMIN,
   settings_users_manage: Role.SUPER_ADMIN,
   settings_general: Role.OWNER,
+
+  // Marketing
+  marketing_view: Role.OWNER,
+  marketing_manage: Role.OWNER,
 } as const
 
 export type Permission = keyof typeof PERMISSIONS

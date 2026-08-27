@@ -209,6 +209,66 @@ export async function GET(request: Request) {
     const prevMonthAvg = prevMonthCompleted.length > 0 ? prevMonthCompleted.reduce((s, a) => s + a.totalPrice, 0) / prevMonthCompleted.length : 0
     const avgTicketTrend = prevMonthAvg > 0 ? ((thisMonthAvg - prevMonthAvg) / prevMonthAvg) * 100 : 0
 
+    // === TODAY — the owner's morning snapshot ===
+    const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const dayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
+    const todayWhere = { ...appointmentWhere, date: { gte: dayStart, lt: dayEnd } }
+
+    const todayAppointmentsRaw = await db.appointment.findMany({
+      where: todayWhere,
+      orderBy: { date: 'asc' },
+      include: {
+        customer: { select: { name: true, phone: true } },
+        stylist: { select: { name: true } },
+        service: { select: { name: true, duration: true } },
+      }
+    })
+
+    const todayAppointments = todayAppointmentsRaw.map(a => ({
+      id: a.id,
+      date: a.date,
+      status: a.status,
+      totalPrice: a.totalPrice,
+      durationMinutes: a.service.duration || 60,
+      customerName: a.customer.name,
+      customerPhone: a.customer.phone,
+      stylistName: a.stylist.name,
+      serviceName: a.service.name,
+    }))
+
+    const todayRevenue = todayAppointmentsRaw
+      .filter(a => a.status === 'completed')
+      .reduce((sum, a) => sum + a.totalPrice, 0)
+    const todayExpected = todayAppointmentsRaw
+      .filter(a => a.status === 'confirmed' || a.status === 'pending')
+      .reduce((sum, a) => sum + a.totalPrice, 0)
+
+    // Occupancy — booked service-minutes vs opening hours (10:00–22:00 = 720 min)
+    const bookedMinutes = todayAppointmentsRaw
+      .filter(a => a.status !== 'cancelled' && a.status !== 'no_show')
+      .reduce((sum, a) => sum + (a.service.duration || 60), 0)
+    const occupancy = Math.min(100, Math.round((bookedMinutes / 720) * 100))
+
+    // This week's daily revenue (last 7 days incl. today)
+    const weekStart = new Date(dayStart.getTime() - 6 * 24 * 60 * 60 * 1000)
+    const weekAppointments = await db.appointment.findMany({
+      where: { ...appointmentWhere, status: 'completed', date: { gte: weekStart } },
+      select: { date: true, totalPrice: true }
+    })
+    const weekMap: Record<string, number> = {}
+    weekAppointments.forEach(a => {
+      const key = a.date.toISOString().slice(0, 10)
+      weekMap[key] = (weekMap[key] || 0) + a.totalPrice
+    })
+    const weekRevenue = Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(weekStart.getTime() + i * 24 * 60 * 60 * 1000)
+      return {
+        day: d.toLocaleDateString('en-US', { weekday: 'short' }),
+        date: d.toISOString().slice(0, 10),
+        revenue: Math.round((weekMap[d.toISOString().slice(0, 10)] || 0) * 100) / 100,
+      }
+    })
+
     return NextResponse.json({
       totalRevenue: Math.round(totalRevenue * 100) / 100,
       totalAppointments,
@@ -230,6 +290,14 @@ export async function GET(request: Request) {
         appointments: Math.round(appointmentTrend * 10) / 10,
         customers: Math.round(customerTrend * 10) / 10,
         avgTicket: Math.round(avgTicketTrend * 10) / 10,
+      },
+      today: {
+        appointments: todayAppointments,
+        revenue: Math.round(todayRevenue * 100) / 100,
+        expected: Math.round(todayExpected * 100) / 100,
+        count: todayAppointmentsRaw.length,
+        occupancy,
+        weekRevenue,
       }
     })
   } catch (error) {

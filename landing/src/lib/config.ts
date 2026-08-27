@@ -19,28 +19,23 @@ export function getBusinessConfig() {
 }
 
 /**
- * Format a number as currency using the client-configured currency.
- * Falls back to USD if config is unavailable.
+ * Format a number as currency using the client-configured symbol with
+ * Latin (Western) digits — ar-* locales render Eastern Arabic numerals.
  */
 export function formatCurrency(value: number): string {
-  const { locale, code } = getCurrencyConfig()
-  try {
-    return new Intl.NumberFormat(locale, { style: 'currency', currency: code }).format(value)
-  } catch {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
-  }
+  const { symbol } = getCurrencyConfig()
+  const num = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(value)
+  return symbol ? `${symbol} ${num}` : num
 }
 
 /**
- * Format a number with locale-appropriate grouping.
+ * Format a number with Latin-digit grouping.
  */
 export function formatNumber(value: number): string {
-  const { locale } = getCurrencyConfig()
-  try {
-    return new Intl.NumberFormat(locale).format(value)
-  } catch {
-    return new Intl.NumberFormat('en-US').format(value)
-  }
+  return new Intl.NumberFormat('en-US').format(value)
 }
 
 export const statusColors: Record<string, string> = {

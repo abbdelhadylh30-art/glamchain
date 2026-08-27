@@ -59,6 +59,33 @@ model Tenant {
   expenses    Expense[]
   auditLogs   AuditLog[]
   whatsappMessages WhatsAppMessageLog[]
+  campaigns      Campaign[]
+}
+
+model Campaign {
+  id            String    @id @default(cuid())
+  tenantId      String
+  name          String
+  // win_back | birthday | offer | new_service | review | custom
+  type          String    @default("offer")
+  // whatsapp | sms
+  channel       String    @default("whatsapp")
+  // draft | scheduled | sent | cancelled
+  status        String    @default("draft")
+  message       String
+  // vip | at_risk | no_show | new_guests | all
+  segment       String    @default("all")
+  audienceCount Int       @default(0)
+  sentCount     Int       @default(0)
+  scheduledFor  DateTime?
+  sentAt        DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  tenant        Tenant    @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId])
+  @@index([status])
 }
 
 model User {

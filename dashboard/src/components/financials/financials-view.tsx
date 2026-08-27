@@ -93,8 +93,8 @@ interface ExpensesData {
   totalPages: number
 }
 
-const CHART_COLORS = ['#e11d48', '#0d9488', '#d97706', '#7c3aed', '#0891b2', '#65a30d']
-const PIE_COLORS = ['#e11d48', '#0d9488', '#d97706', '#7c3aed', '#0891b2', '#65a30d', '#f59e0b', '#6366f1']
+const CHART_COLORS = ['#96742c', '#b37158', '#7d8b6a', '#6b5d4a', '#a48ac2', '#c8a24b']
+const PIE_COLORS = ['#96742c', '#b37158', '#7d8b6a', '#6b5d4a', '#a48ac2', '#c8a24b', '#d8c48c', '#8a7d68']
 
 const EXPENSE_CATEGORIES = ['Rent', 'Utilities', 'Salaries', 'Supplies', 'Marketing', 'Insurance', 'Maintenance', 'Equipment', 'Other']
 
@@ -331,12 +331,12 @@ export function FinancialsView() {
                 <AreaChart data={d.monthlyData}>
                   <defs>
                     <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#e11d48" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#e11d48" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#96742c" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#96742c" stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="expensesGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#0d9488" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#0d9488" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#b37158" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#b37158" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
@@ -344,8 +344,8 @@ export function FinancialsView() {
                   <YAxis tick={{ fontSize: 12 }} className="text-muted-foreground" tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
                   <Tooltip formatter={(value: number, name: string) => [formatCurrency(value), name.charAt(0).toUpperCase() + name.slice(1)]} />
                   <Legend />
-                  <Area type="monotone" dataKey="revenue" stroke="#e11d48" fill="url(#revenueGrad)" strokeWidth={2} />
-                  <Area type="monotone" dataKey="expenses" stroke="#0d9488" fill="url(#expensesGrad)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="revenue" stroke="#96742c" fill="url(#revenueGrad)" strokeWidth={2.5} />
+                  <Area type="monotone" dataKey="expenses" stroke="#b37158" fill="url(#expensesGrad)" strokeWidth={2.5} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -396,7 +396,7 @@ export function FinancialsView() {
                   <XAxis dataKey="location" tick={{ fontSize: 11 }} className="text-muted-foreground" />
                   <YAxis tick={{ fontSize: 12 }} className="text-muted-foreground" tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
                   <Tooltip formatter={(value: number) => [formatCurrency(value), 'Revenue']} />
-                  <Bar dataKey="amount" fill="#e11d48" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="amount" fill="#96742c" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
